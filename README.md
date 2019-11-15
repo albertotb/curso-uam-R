@@ -1,4 +1,4 @@
-# Introducción al tidyverso
+# Fundamentos lenguajes: R
 
 1. Introducción a R [[slides]](./src/00-intro.html)
     * IDE RStudio
