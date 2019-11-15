@@ -4,7 +4,7 @@
     <title>Introducción</title>
     <meta charset="utf-8" />
     <meta name="author" content="Alberto Torres y Irene Rodríguez" />
-    <meta name="date" content="2019-11-09" />
+    <meta name="date" content="2019-11-15" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # Introducción
 ## Fundamentos lenguajes: R
 ### Alberto Torres y Irene Rodríguez
-### 2019-11-09
+### 2019-11-15
 
 ---
 
@@ -387,13 +387,13 @@ attributes(cars)
 ## $names
 ## [1] "speed" "dist" 
 ## 
-## $row.names
-##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
-## [24] 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
-## [47] 47 48 49 50
-## 
 ## $class
 ## [1] "data.frame"
+## 
+## $row.names
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+## [21] 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40
+## [41] 41 42 43 44 45 46 47 48 49 50
 ```
 
 ---
@@ -443,8 +443,8 @@ vector("numeric",10)
 
 ```r
 rep(x=c("A","B","C"), each=2, times=3)
-##  [1] "A" "A" "B" "B" "C" "C" "A" "A" "B" "B" "C" "C" "A" "A" "B" "B" "C"
-## [18] "C"
+##  [1] "A" "A" "B" "B" "C" "C" "A" "A" "B" "B" "C" "C" "A" "A" "B"
+## [16] "B" "C" "C"
 rep(x=c(1,2,3), length.out=10)
 ##  [1] 1 2 3 1 2 3 1 2 3 1
 ```
@@ -477,9 +477,9 @@ seq(from=9, to=1, length.out=4)
     
     ```r
     sample(x=1:10, size=5)
-    ## [1] 1 7 9 6 2
+    ## [1] 9 2 6 8 5
     sample(x=1:10, size=20, replace=TRUE)
-    ##  [1]  6  4  8 10  5  8  3  9  9  7  8  5  7  7  6  6  2  6  7  7
+    ##  [1]  5  8  1  7  9  9 10  3  1  4  1  7  2  3  1  4  1  3  5  4
     # Ejercicio: simular 5 tiradas de una moneada trucada ("cara", "cruz") con probabilidad de "cara" de 0.8
     ```
   
@@ -487,11 +487,11 @@ seq(from=9, to=1, length.out=4)
     
     ```r
     rnorm(n=10, mean=4, sd=0.5)
-    ##  [1] 3.853574 3.475862 3.387382 4.209452 3.877540 4.256567 4.321149
-    ##  [8] 3.609755 4.670021 4.395183
+    ##  [1] 3.967479 4.206036 4.113352 4.257513 4.092507 4.427248
+    ##  [7] 3.591205 3.828358 4.206736 4.974972
     runif(n=10, min=4, max=10)
-    ##  [1] 9.048406 9.845432 6.903651 8.184244 4.752953 9.436183 7.000596
-    ##  [8] 4.182946 5.413594 8.161374
+    ##  [1] 8.996807 9.196126 7.187865 5.314359 5.276187 5.138298
+    ##  [7] 6.777172 7.494589 6.907496 5.274666
     ```
 
 ---
@@ -539,15 +539,16 @@ x &amp; z
 # Funciones: log, exp, sin, cos, tan, sqrt, ceiling, floor, round...
 x &lt;- pi * 1:5
 sin(x)
-## [1]  1.224647e-16 -2.449294e-16  3.673940e-16 -4.898587e-16  6.123234e-16
+## [1]  1.224647e-16 -2.449294e-16  3.673940e-16 -4.898587e-16
+## [5]  6.123234e-16
 
 # Funciones estadísticas: sum, product, min, max, mean, sd, var, quantile, summary
 x &lt;- rnorm(n=5, mean=10, sd=5)
 mean(x)
-## [1] 9.226117
+## [1] 8.923048
 summary(x)
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   4.418   6.455   7.291   9.226  12.610  15.357
+##   3.007   7.722  10.526   8.923  11.092  12.268
 
 # ¡OJO con los missing values!
 x &lt;- c(1,2,3,NA,5,6,NA,8,9,0)
@@ -908,11 +909,13 @@ levels(genero)
 ```r
 encuesta.resultados &lt;- factor(c("Desacuerdo","Neutral","Fuertemente desacuerdo","Neutral","Deacuerdo","Fuertemente deacuerdo","Desacuerdo","Fuertemente deacuerdo","Neutral", "Fuertemente desacuerdo","Neutral","Deacuerdo"), levels=c("Fuertemente desacuerdo","Desacuerdo","Neutral","Deacuerdo","Fuertemente deacuerdo"),ordered=TRUE)
 encuesta.resultados
-##  [1] Desacuerdo             Neutral                Fuertemente desacuerdo
-##  [4] Neutral                Deacuerdo              Fuertemente deacuerdo 
-##  [7] Desacuerdo             Fuertemente deacuerdo  Neutral               
-## [10] Fuertemente desacuerdo Neutral                Deacuerdo             
-## 5 Levels: Fuertemente desacuerdo &lt; Desacuerdo &lt; Neutral &lt; ... &lt; Fuertemente deacuerdo
+##  [1] Desacuerdo             Neutral               
+##  [3] Fuertemente desacuerdo Neutral               
+##  [5] Deacuerdo              Fuertemente deacuerdo 
+##  [7] Desacuerdo             Fuertemente deacuerdo 
+##  [9] Neutral                Fuertemente desacuerdo
+## [11] Neutral                Deacuerdo             
+## 5 Levels: Fuertemente desacuerdo &lt; Desacuerdo &lt; ... &lt; Fuertemente deacuerdo
 ```
 
 
@@ -1006,17 +1009,23 @@ nrow(mtcars)
 
 #Nombres de las columnas
 colnames(mtcars)
-##  [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"   "am"   "gear"
-## [11] "carb"
+##  [1] "mpg"  "cyl"  "disp" "hp"   "drat" "wt"   "qsec" "vs"  
+##  [9] "am"   "gear" "carb"
 
 # Primeras 5 lineas
 head(mtcars,5)
-##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3
+##                   carb
+## Mazda RX4            4
+## Mazda RX4 Wag        4
+## Datsun 710           1
+## Hornet 4 Drive       1
+## Hornet Sportabout    2
 ```
 
 
@@ -1057,20 +1066,27 @@ summary(mtcars)
 ##  Mean   :20.09   Mean   :6.188   Mean   :230.7   Mean   :146.7  
 ##  3rd Qu.:22.80   3rd Qu.:8.000   3rd Qu.:326.0   3rd Qu.:180.0  
 ##  Max.   :33.90   Max.   :8.000   Max.   :472.0   Max.   :335.0  
-##       drat             wt             qsec             vs        
-##  Min.   :2.760   Min.   :1.513   Min.   :14.50   Min.   :0.0000  
-##  1st Qu.:3.080   1st Qu.:2.581   1st Qu.:16.89   1st Qu.:0.0000  
-##  Median :3.695   Median :3.325   Median :17.71   Median :0.0000  
-##  Mean   :3.597   Mean   :3.217   Mean   :17.85   Mean   :0.4375  
-##  3rd Qu.:3.920   3rd Qu.:3.610   3rd Qu.:18.90   3rd Qu.:1.0000  
-##  Max.   :4.930   Max.   :5.424   Max.   :22.90   Max.   :1.0000  
-##        am              gear            carb      
-##  Min.   :0.0000   Min.   :3.000   Min.   :1.000  
-##  1st Qu.:0.0000   1st Qu.:3.000   1st Qu.:2.000  
-##  Median :0.0000   Median :4.000   Median :2.000  
-##  Mean   :0.4062   Mean   :3.688   Mean   :2.812  
-##  3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:4.000  
-##  Max.   :1.0000   Max.   :5.000   Max.   :8.000
+##       drat             wt             qsec      
+##  Min.   :2.760   Min.   :1.513   Min.   :14.50  
+##  1st Qu.:3.080   1st Qu.:2.581   1st Qu.:16.89  
+##  Median :3.695   Median :3.325   Median :17.71  
+##  Mean   :3.597   Mean   :3.217   Mean   :17.85  
+##  3rd Qu.:3.920   3rd Qu.:3.610   3rd Qu.:18.90  
+##  Max.   :4.930   Max.   :5.424   Max.   :22.90  
+##        vs               am              gear      
+##  Min.   :0.0000   Min.   :0.0000   Min.   :3.000  
+##  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:3.000  
+##  Median :0.0000   Median :0.0000   Median :4.000  
+##  Mean   :0.4375   Mean   :0.4062   Mean   :3.688  
+##  3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:4.000  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :5.000  
+##       carb      
+##  Min.   :1.000  
+##  1st Qu.:2.000  
+##  Median :2.000  
+##  Mean   :2.812  
+##  3rd Qu.:4.000  
+##  Max.   :8.000
 ```
 
 ---
