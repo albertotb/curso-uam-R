@@ -4,7 +4,7 @@
     <title>ggplot2</title>
     <meta charset="utf-8" />
     <meta name="author" content="Alberto Torres Barrán y Irene Rodríguez Luján" />
-    <meta name="date" content="2019-07-08" />
+    <meta name="date" content="2019-11-09" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # ggplot2
 ## Fundamentos lenguajes: R
 ### Alberto Torres Barrán y Irene Rodríguez Luján
-### 2019-07-08
+### 2019-11-09
 
 ---
 
@@ -38,38 +38,52 @@ MathJax.Hub.Config({
 
 
 
-# ggplot2
-
 ## Introducción
 
-- Implementa una gramática de gráficos en R
-- Divide un gráfico en sus componentes esenciales
+- Implementa una **gramática de gráficos** en R.
+- Divide un gráfico en sus componentes esenciales:
+  + Un conjunto de datos.
+  + Un conjunto de marcas visuales (puntos, lineas, barras) y propiedades asociadas a ellas (color, tamaño, tipo, etc.).
+  + Un sistema de coordenadas.
+  
+&lt;center&gt;
+&lt;img src="img/ggplot2.png" width="50%" /&gt;
+&lt;/center&gt;  
+  
 - Múltiples ventajas con respecto a los gráficos de R base
     + Leyenda automática
     + Facetas
     + ...
 
+
+---
+
+## Introducción (cont.)
+
+- Los capítulos de *data visualization* y *graphics for communication* del libro [R for data science](https://r4ds.had.co.nz/) son una buena forma de empzar.
+- La [cheatsheet de ggplot2](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) es muy útil como resumen, así como la [documentación de referencia de ggplot2](https://ggplot2.tidyverse.org/reference/) que contiene muchos ejemplos.
+
 ---
 
 ## Gramática de gráficos
 
-- *mapping* se define con `aes()` (*aesthetics*) y describe como las variables de un data frame se asignan a propiedades visuales
-- *data* data frame 
-- *geom* objetos geométricos con el que se van a representar los datos
-- *stat* transforman los datos
-- *position* pequeños ajustes en la posición de los elementos
+- Para generar un gráfico en ggplot, se usan las funciones `qplot()` o `ggplot()`.
+  + `qplot()` es una versión simplificada de `ggplot()` que permite definir los datos a representar, coordenadas y la forma en qué se representar (líneas, puntos...), y provee muchos &lt;u&gt;valores por defecto&lt;/u&gt;.
+  
+- Por su flexibilidad, veremos `ggplot()`.
 
 ---
 
-## Ejemplo
+## Gramática de gráficos (cont.)
+&lt;center&gt;
+&lt;img src="img/ggplot3.png" width="50%" /&gt;
+&lt;/center&gt;  
 
-
-```r
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy))
-```
-
-![](02-ggplot2_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
+- *data* data frame 
+- *mapping* se define con `aes()` (*aesthetics*) y describe como las variables de un data frame se asignan a propiedades visuales
+- *geom* objetos geométricos con el que se van a representar los datos
+- *stat* transforman los datos
+- *position* pequeños ajustes en la posición de los elementos
 
 ---
 
@@ -86,7 +100,27 @@ ggplot(data = &lt;DATA&gt;) +
 
 ---
 
+## Ejemplo
+
+
+```r
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+![](02-ggplot2_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+
+---
+
 ## Aesthetics
+
+
+
+```r
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
 
 - El gráfico anterior representa dos variables, `displ` y `cyl`
 - Variables adicionales se pueden asignar a distintas propiedades del gráfico (*aesthetics*)
@@ -101,7 +135,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = drv))
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -111,14 +145,14 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = class, size = cyl))
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 ---
 
 ## Apariencia del gráfico
 
-- Para cambiar la apariencia del gráfico, se les asigna un valor manualmente a las propiedades gráficas anteriores
-- No transmiten información sobre una variable
+- Para cambiar la apariencia del gráfico, se les asigna un valor **manualmente** a las propiedades gráficas anteriores
+- **No transmiten información sobre una variable**
 - Tienen que estar **fuera** de la función `aes()`
 
 ---
@@ -129,40 +163,8 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy), color = "blue", alpha = 0.8, shape = 2)
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
----
-
-## Facets
-
-- Otra opción para representar variables adicionales son las facetas
-- Cada faceta es un subgráfico realizado con un subconjunto de los datos
-
----
-
-## facet_wrap
-
-
-```r
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy)) +
-  facet_wrap(~drv)
-```
-
-![](02-ggplot2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
-
----
-
-## facet_grid
-
-
-```r
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy)) +
-  facet_grid(drv ~ class)
-```
-
-![](02-ggplot2_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -171,6 +173,8 @@ ggplot(data = mpg) +
 - Objectos geométricos que se usan para representar la relación entre las variables `x` e `y`
 - Algunos ejemplos son:
     + `geom_bar()`, barras
+    + `geom_histogram()`, histograma
+    + `geom_density()`, función de densidad
     + `geom_point()`, puntos
     + `geom_line()`, lineas
     + `geom_text()`, texto
@@ -180,9 +184,18 @@ ggplot(data = mpg) +
 
 ---
 
+## Geoms (cont.)
+
+&lt;center&gt;
+&lt;img src="img/geom_funcs.png" width="90%" /&gt;
+&lt;/center&gt;  
+
+
+---
+
 ## Múltiples geoms
 
-Se pueden mostrar múltiples geoms añadiendo nuevas capas al gráfico
+Se pueden mostrar múltiples geoms añadiendo nuevas capas al gráfico:
 
 
 ```r
@@ -191,11 +204,13 @@ ggplot(data = mpg) +
   geom_smooth(mapping = aes(x = displ, y = hwy))
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 ---
 
 ## Ajustes globales
+
+* Se puede configurar el `aes` en la llamada a `ggplot()` y las funciones tipo `geom` tomarán ese `aes` en caso de que no se sobreescriban los atributos del `aes` en la llamada a la función `geom`.
 
 
 ```r
@@ -204,7 +219,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_smooth()
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -215,7 +230,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_smooth()
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -228,15 +243,33 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_smooth(linetype = 2)
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+---
+
+## Ajustes locales (cont.)
+
+* También es posible cambiar los datos a representar en un `geom`.
+
+
+```r
+mymean &lt;- mpg %&gt;% group_by(displ) %&gt;% summarize(media=mean(hwy))
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() +
+  geom_point(data=mymean,mapping=aes(x=displ,y=media),color="red")
+```
+
+![](02-ggplot2_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+
 
 ---
 
 ## Transformaciones estadísticas
 
-- Alunos `geom` calculan nuevas variables a representar a partir de las originales del data frame
-- Un ejemplo es `geom_smooth()`, que ajusta un polinomio a los datos
-- Para ver la transformación estadística de cada `geom` se puede consultar el valor por defecto del parámetro `stat` en la ayuda
+- Algunos `geom` calculan nuevas variables a representar a partir de las originales del data frame.
+- Un ejemplo es `geom_smooth()`, que ajusta un polinomio a los datos.
+- Para ver la transformación estadística de cada `geom` se puede consultar el valor por defecto del parámetro `stat` en la ayuda.
 
 ---
 
@@ -248,7 +281,7 @@ ggplot(data = mpg) +
   geom_bar(aes(x = class))
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -285,7 +318,7 @@ ggplot(data = n_class) +
   geom_bar(aes(x = class, y = n), stat = "identity")
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -297,7 +330,7 @@ ggplot(data = n_class) +
     + Contar cuantos valores hay en cada intervalo
     + Representar con barras
 
-- La transformacion estadística se conoce como *binning*
+- La transformacion estadística se conoce como *binning*.
 
 ---
 
@@ -307,13 +340,17 @@ ggplot(data = mpg) +
   geom_bar(mapping = aes(x = hwy), stat = "bin")
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
 
 ---
 
 ## Resultado transformación
 
 Las variables resultado de la transformación son accesibles como `..&lt;NOMBRE&gt;..`
+  + `..count..`: número de puntos en cada bin
+  + `..ncount..`: número de puntos en cada bin normalizados por el máximo de conteos sobre todos los bines.
+  + `..density..`: función de densidad
+  + `..ndensity..`: función de densidad normalizada por el máximo valor de densidad sobre todos los bines.
 
 
 ```r
@@ -321,7 +358,7 @@ ggplot(data = mpg) +
   geom_bar(mapping = aes(x = hwy, y = ..density..), stat = "bin")
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -333,11 +370,11 @@ ggplot(data = mpg) +
   geom_line(mapping = aes(x = hwy, y = ..count..), stat = "bin")
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
 
 ---
 
-## geom_hist
+## geom_histogram
 
 
 ```r
@@ -345,17 +382,45 @@ ggplot(data = mpg) +
   geom_histogram(mapping = aes(x = hwy))
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+
+---
+
+## geom_histogram (cont.)
+
+* Generamos el histograma anterior normalizado y en porcentaje.
+
+
+```r
+ggplot(data = mpg) + 
+  geom_histogram(mapping = aes(x = hwy, y=100*..count../sum(..count..)))
+```
+
+![](02-ggplot2_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+---
+
+* De forma equivalente:
+
+
+```r
+ggplot(data = mpg) + 
+  geom_bar(mapping = aes(x = hwy, y=100*..count../sum(..count..)),stat="bin")
+```
+
+![](02-ggplot2_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
 
 ---
 
 ## Ajustes de posición
 
-- Ciertos `geom`s tienen un ajuste opcional de posición
-- En `geom_bar()` su valor por defecto es `stack`
-- Otros ajustes posibles son `dodge` y `fill` 
-- En `geom_point()` su valor por defecto es `identity`
-- Otro valor posible es `jitter`
+- Ciertos `geom`s tienen un ajuste opcional de posición.
+  + En `geom_bar()` su valor por defecto es `stack`.
+  + En `geom_point()` su valor por defecto es `identity`.
+  
+&lt;center&gt;
+&lt;img src="img/ggplot_position.png" width="50%" /&gt;
+&lt;/center&gt;  
 
 ---
 
@@ -365,7 +430,7 @@ ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = color))
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -375,7 +440,7 @@ ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = color), position = "dodge")
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -385,7 +450,7 @@ ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = color), position = "fill")
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -395,7 +460,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = cty, y = hwy))
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -405,7 +470,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = cty, y = hwy), position = "jitter")
 ```
 
-![](02-ggplot2_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+![](02-ggplot2_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -453,7 +518,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {

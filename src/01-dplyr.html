@@ -4,7 +4,7 @@
     <title>dplyr</title>
     <meta charset="utf-8" />
     <meta name="author" content="Alberto Torres Barrán y Irene Rodríguez Luján" />
-    <meta name="date" content="2019-07-08" />
+    <meta name="date" content="2019-11-05" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # dplyr
 ## Fundamentos lenguajes: R
 ### Alberto Torres Barrán y Irene Rodríguez Luján
-### 2019-07-08
+### 2019-11-05
 
 ---
 
@@ -38,42 +38,134 @@ MathJax.Hub.Config({
 
 
 
-# dplyr
+&lt;!-- util: https://atrebas.github.io/post/2019-03-03-datatable-dplyr/ --&gt;
 
-## Introducción
+## Tidy Data
 
-- Implementa una gramática para realizar operaciones básicas con data frames
-- Muy eficiente
-- Operaciones principales: `slice`, `filter`, `select`, `arrange`, `mutate` y `summarize`
-- Estas operaciones se pueden componer para realizar otras más complejas
+- El 80% del tiempo del análisis de datos se pasa limpiando y preparando datos (Dasu and Johnson 2003).
+- Una vez cargados los datos, es conveniente estructurarlos de forma que el procesado posterior sea lo más sencillo posible.
+- Una estructura muy común son los datos ordenados o *tidy data*.
+- Hadley y Wickhan (2014) los definen como aquellos donde:
+  1. Cada variable forma una columna.
+  2. Cada observación o muestra forma una fila.
+  3. Cada tipo de unidad de observación forma una tabla.
+- El paquete `dplyr` ayuda a generar datos ordenados así como transformarlos y analizarlos de forma eficiente. Algunos ejemplos de manipulaciones de datos con dplyr:
+&lt;!--  + Cambiar las dimensiones de los datos (formatos *long* y *wide*). --&gt;
+  + Seleccionar subconjuntos de filas y/o columnas.
+  + Agrupar datos.
+  + Calcular diferentes estadísticos sobre datos (posiblemente agrupados).
+  + Generar nuevas variables.
+  + Combinar/cruzar tablas.
 
 ---
 
+## Introducción
+
+- Implementa una gramática para realizar operaciones básicas con data frames.
+- Muy eficiente.
+- Operaciones principales: 
+  + `slice`: Selecciona filas por su posición.
+  + `filter`: Selecciona filas por condición.
+  + `select`: Selecciona variables (columnas) de un dataframe.
+  + `arrange`: Ordena las filas de un dataframe.
+  + `mutate`: Añade nuevas variables(columnas) al dataframe como combinación de las ya existentes.
+  + `summarize`: Colapsa el dataframe a una única fila.
+- Cada una de estas operaciones realiza una tarea concreta. Esto simplifica la legibilidad del código.
+- Estas operaciones se pueden componer para realizar otras más complejas utilizando **pipelines** (`%&gt;%`).
+
+```r
+iris %&gt;% 
+  select(Sepal.Width) %&gt;%
+  arrange(Sepal.Width)
+```
+
+
+---
+
+
+## Tibbles
+
+- Las tablas en dplyr (tibbles) son del tipo `tbl`.
+- La clase `tbl` es una ["redefinición moderna"](https://blog.rstudio.com/2016/03/24/tibble-1-0-0/) de `data.frame`: mantiene lo que es efectivo de `data.frame` y elimina lo que no.
+- **¿Qué diferencia este tipo de datos de un data.frame?**
+  + La impresión de los datos es diferente.
+  + Tibbles son estrictos en cuanto a la selección de columnas.
+  + La selección de filas y/o columnas en tibbles siempre devuelve otro tibble.
+
+- Se puede crear una tabla tibble con la función `tibble`:
+
+```r
+tibble(
+  x = 1:3,
+  z = x ^ 2,
+  txt = "hola"
+)
+```
+
+- Se puede hacer que un data.frame pase a ser tibble con las funcniones `as_tibble()` o `tbl_df`: `as_tibble(iris)` o `tbl_df(iris)`.
+
+---
+
+## Funciones básicas
+
+- Las funciones vistas para data.frames `head`, `tail`, `View`, `dim`, `nrow`, `ncol`, `rownames`, `colnames`, `str`, `summary` son válidas también con tablas de tipo `tbl`.
+- Además, `dplyr` tiene la función `glimpse` que muestra una visión compacta del dataframe.
+
+```r
+glimpse(iris)
+```
+
+```
+## Observations: 150
+## Variables: 5
+## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5…
+## $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3…
+## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1…
+## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0…
+## $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, set…
+```
+
+
+---
+  
 ## slice
 
 Selecciona filas por su posición
 
 
 ```r
-slice(mpg, 1:5)
+# con indices positivos
+slice(mpg, 1:3)
 ```
 
 ```
-## # A tibble: 5 x 11
+## # A tibble: 3 x 11
 ##   manufacturer model displ  year   cyl trans  drv     cty   hwy fl    class
 ##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
 ## 1 audi         a4      1.8  1999     4 auto(… f        18    29 p     comp…
 ## 2 audi         a4      1.8  1999     4 manua… f        21    29 p     comp…
 ## 3 audi         a4      2    2008     4 manua… f        20    31 p     comp…
-## 4 audi         a4      2    2008     4 auto(… f        21    30 p     comp…
-## 5 audi         a4      2.8  1999     6 auto(… f        16    26 p     comp…
+```
+
+```r
+# descartar filas usando indices negativos
+slice(mpg, -4:-234)
+```
+
+```
+## # A tibble: 3 x 11
+##   manufacturer model displ  year   cyl trans  drv     cty   hwy fl    class
+##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+## 1 audi         a4      1.8  1999     4 auto(… f        18    29 p     comp…
+## 2 audi         a4      1.8  1999     4 manua… f        21    29 p     comp…
+## 3 audi         a4      2    2008     4 manua… f        20    31 p     comp…
 ```
 
 ---
 
 ## filter
 
-Selecciona filas por condición
+Selecciona filas por condiciones.
 
 ```r
 filter(mpg, model == "a4")
@@ -96,9 +188,12 @@ filter(mpg, model == "a4")
 
 ## Operadores lógicos
 
-- R implementa todos los operadores relacionales habituales `&gt;, &lt;, &gt;=, &lt;=, ==, !=`
-- Los operadores lógicos son la negación `!`, and `&amp;` y or `|`
-- El resultado de todas estas operaciones son valores lógicos `TRUE` (`T`) o `FALSE` (`F`)
+- Con la función `filter` se pueden seleccionar filas por condiciones lógicas.
+- Dado que las condiciones se aplican sobre columnas del tibble y estas columnas son vectores, los operadores lógicos sobre vectores (devuelven vectores lógicos) se pueden utilizar para filtrar las filas de un dataframe.
+
+
+&lt;img src="img/operadores_logicos.png" width="100%" /&gt;
+
 
 ---
 
@@ -110,23 +205,61 @@ filter(mpg, model == "a4")
 filter(mpg, model == "a4", cyl &gt;= 5)
 ```
 
-- También se puede usar explicitamente el operador
+- También se puede usar explicitamente el operador `&amp;`.
 
 ```r
 filter(mpg, model == "a4" &amp; cyl &gt;= 5)
 ```
 
-- En el caso del or lógico es obligatorio el uso del operador
+- En el caso del or lógico es obligatorio el uso del operador `|`.
 
 ```r
 filter(mpg, model == "a4" | model == "mustang")
 ```
 
+- Se pueden usar algunas de las funciones lógicas anteriores
+
+```r
+filter(mpg, model %in% c("tiburon","new beetle"))
+```
+
 ---
 
-## select
+## Otras funciones para seleccionar filas
 
-Seleccionar variables (columnas) de un data frame
+- `distinct`: Eliminar filas duplicadas (todas las columnas deben ser idénticas)
+
+```r
+mpg2 &lt;- rbind(mpg, slice(mpg,1))
+dim(mpg2)
+nodup &lt;- distinct(mpg2)
+dim(mpg)
+```
+
+- `sample_frac`: Seleccionar aleatoriamente una proporción de las filas.
+
+
+```r
+sample_frac(mpg, 0.5, replace=T)
+```
+
+- `sample_n`: Seleccionar aleatoriamente un número de filas.
+
+```r
+sample_n(mpg, 10, replace=F)
+```
+
+- `top_n`: Seleccionar y ordenar el top n de entradas.
+
+```r
+top_n(mpg,2,displ)
+```
+
+---
+
+## Select
+
+- Seleccionar variables (columnas) de un data frame.
 
 
 ```r
@@ -151,10 +284,8 @@ select(mpg, model, displ, cyl)
 ```
 
 ---
-
-## Ignorar variables
-
-Con un `-` se ignoran variables
+## Select (cont.)
+- Con un `-` se ignoran variables.
 
 ```r
 select(mpg, -manufacturer)
@@ -177,11 +308,12 @@ select(mpg, -manufacturer)
 ## # … with 224 more rows
 ```
 
+
 ---
 
-## Rangos
+## Select (cont.)
 
-Puesto que las variables están ordenadas, se puede seleccionar un rango con `:`
+- Puesto que las variables están ordenadas, se puede seleccionar un rango con `:`
 
 
 ```r
@@ -207,21 +339,38 @@ select(mpg, model:trans)
 
 ---
 
-## Funciones auxiliares
+## Select - Funciones auxiliares 
 
-Las siguientes funciones se pueden usar dentro de `select()`
+- Las siguientes funciones se pueden usar dentro de `select()` para seleccionar variables en base a sus nombres.
 
-- `starts_with()`: empiezan con un prefijo
-- `ends_with()`: terminan con un sufijo
-- `contains()`: contienen una string
-- `matches()`: concuerdan con una expresión regular
-- `num_range()`: rango numérico como "X01", "X02", "X03"
+  + `starts_with()`: empiezan con un prefijo
+  + `ends_with()`: terminan con un sufijo
+  + `contains()`: contienen una string
+  + `matches()`: concuerdan con una expresión regular
+  + `num_range()`: rango numérico como "X01", "X02", "X03"
+  + `one_of()`: selecciona columnas cuyo nombre está dentro del grupo de nombres.
+
+- Ejemplo: seleccionar variables cuyo nomble contiene el caracter 'c'.
+
+```r
+glimpse(select(mpg,contains("c")))
+```
+
+```
+## Observations: 234
+## Variables: 4
+## $ manufacturer &lt;chr&gt; "audi", "audi", "audi", "audi", "audi", "audi", "au…
+## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, …
+## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 17,…
+## $ class        &lt;chr&gt; "compact", "compact", "compact", "compact", "compac…
+```
 
 ---
 
 ## arrange
 
-Ordena las filas de un data frame
+- Ordena las filas de un data frame por el valor de una o varias columnas.
+- Por defecto ordena de menor a mayor (orden ascendente), pero es posible utilizar la función `desc` sobre el nombre de la variable para ordenar descendentemente.
 
 ```r
 arrange(mpg, desc(year), cyl)
@@ -248,31 +397,111 @@ arrange(mpg, desc(year), cyl)
 
 ## mutate
 
-Añade nuevas variables (columnas) al data frame como combinación de las ya existentes
+- Añade nuevas variables (columnas) al data frame como combinación de las ya existentes.
+
 
 ```r
-mutate(mpg, avg_mpg = (cty+hwy)/2)
+glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2))
 ```
 
 ```
-## # A tibble: 234 x 12
-##    manufacturer model displ  year   cyl trans drv     cty   hwy fl    class
-##    &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-##  1 audi         a4      1.8  1999     4 auto… f        18    29 p     comp…
-##  2 audi         a4      1.8  1999     4 manu… f        21    29 p     comp…
-##  3 audi         a4      2    2008     4 manu… f        20    31 p     comp…
-##  4 audi         a4      2    2008     4 auto… f        21    30 p     comp…
-##  5 audi         a4      2.8  1999     6 auto… f        16    26 p     comp…
-##  6 audi         a4      2.8  1999     6 manu… f        18    26 p     comp…
-##  7 audi         a4      3.1  2008     6 auto… f        18    27 p     comp…
-##  8 audi         a4 q…   1.8  1999     4 manu… 4        18    26 p     comp…
-##  9 audi         a4 q…   1.8  1999     4 auto… 4        16    25 p     comp…
-## 10 audi         a4 q…   2    2008     4 manu… 4        20    28 p     comp…
-## # … with 224 more rows, and 1 more variable: avg_mpg &lt;dbl&gt;
+## Observations: 234
+## Variables: 12
+## $ manufacturer &lt;chr&gt; "audi", "audi", "audi", "audi", "audi", "audi", "au…
+## $ model        &lt;chr&gt; "a4", "a4", "a4", "a4", "a4", "a4", "a4", "a4 quatt…
+## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0, 2…
+## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 199…
+## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, …
+## $ trans        &lt;chr&gt; "auto(l5)", "manual(m5)", "manual(m6)", "auto(av)",…
+## $ drv          &lt;chr&gt; "f", "f", "f", "f", "f", "f", "f", "4", "4", "4", "…
+## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 17,…
+## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 25,…
+## $ fl           &lt;chr&gt; "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "…
+## $ class        &lt;chr&gt; "compact", "compact", "compact", "compact", "compac…
+## $ avg_mpg      &lt;dbl&gt; 23.5, 25.0, 25.5, 25.5, 21.0, 22.0, 22.5, 22.0, 20.…
 ```
 
 ---
 
+## mutate (cont.)
+
+- Es posible crear más de una variable en la misma llamada separando cada nueva variable con `,`.
+
+
+```r
+glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2, twice_cyl=2*cyl))
+```
+
+```
+## Observations: 234
+## Variables: 13
+## $ manufacturer &lt;chr&gt; "audi", "audi", "audi", "audi", "audi", "audi", "au…
+## $ model        &lt;chr&gt; "a4", "a4", "a4", "a4", "a4", "a4", "a4", "a4 quatt…
+## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0, 2…
+## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 199…
+## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, …
+## $ trans        &lt;chr&gt; "auto(l5)", "manual(m5)", "manual(m6)", "auto(av)",…
+## $ drv          &lt;chr&gt; "f", "f", "f", "f", "f", "f", "f", "4", "4", "4", "…
+## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 17,…
+## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 25,…
+## $ fl           &lt;chr&gt; "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "…
+## $ class        &lt;chr&gt; "compact", "compact", "compact", "compact", "compac…
+## $ avg_mpg      &lt;dbl&gt; 23.5, 25.0, 25.5, 25.5, 21.0, 22.0, 22.5, 22.0, 20.…
+## $ twice_cyl    &lt;dbl&gt; 8, 8, 8, 8, 12, 12, 12, 8, 8, 8, 8, 12, 12, 12, 12,…
+```
+
+---
+
+## Otras funciones para crear nuevas variables
+
+- `transmute`: Calcula una o más columnas nuevas y elimina las columnas originales.
+
+```r
+glimpse(transmute(mpg, avg_mpg = (cty+hwy)/2))
+```
+
+```
+## Observations: 234
+## Variables: 1
+## $ avg_mpg &lt;dbl&gt; 23.5, 25.0, 25.5, 25.5, 21.0, 22.0, 22.5, 22.0, 20.5, 24…
+```
+
+
+---
+
+## Otras funciones para crear nuevas variables (cont.)
+
+
+- `mutate_all`: Aplica una función a todas las columnas. Se aplica la función a cada columna individualmente.
+
+```r
+# todas las columnas de tipo caracter
+mutate_all(mpg,as.character)
+```
+- `mutate_at`: Aplica una función a un subconjunto de columnas pasadas como argumento. Se aplica la función a cada columna individualmente.
+
+```r
+glimpse(mutate_at(mpg,c("displ","year","cyl","cty","hwy"),min))
+```
+- `mutate_if`: Aplica una función a todas las columnas que cumplen una condición lógica especificada. Se aplica la función a cada columna individualmente.
+
+```r
+glimpse(mutate_if(mpg,is.numeric,min))
+```
+
+---
+
+## Algunas funciones útiles para generar nuevas columnas
+
+&lt;center&gt;
+&lt;img src="img/mutate_funciones2.png" width="80%" /&gt;
+&lt;/center&gt;
+
+
+
+---
+
+&lt;!--
 ## Operadores y funciones aritméticas
 
 - R implementa los operadores aritméticos habituales 
@@ -286,13 +515,14 @@ mutate(mpg, avg_mpg = (cty+hwy)/2)
 
 - También las funciones aritméticas comunes: `log()`, `exp()`, `sin()`, `cos()`, `tan()`, `cumsum()`, `cumprod()`, `abs()`, `sqrt()`, `round()`, `ceiling()`, `floor()`, `trunc()`, ...
 
-- Operan sobre vectores (columnas de un data frame) elemento a elemento
-
+- Operan sobre vectores (columnas de un data frame) elemento a elemento.
+--&gt;
 ---
 
 ## summarize
 
-Colapsa el data frame a una única fila
+- Calcula variables agregadas.
+- Es posible crear más de una variable en la misma llamada separando cada nueva variable con `,`.
 
 
 ```r
@@ -306,6 +536,18 @@ summarize(mpg, max_cyl = max(cyl), avg_cty = mean(cty), min_year = min(year))
 ## 1       8    16.9     1999
 ```
 
+```r
+# Algunas de las funciones de agregacion pueden operar sobre varias columnas
+summarize(mpg, pares_distintos = n_distinct(cyl,cty), maxim = max(cyl, cty))
+```
+
+```
+## # A tibble: 1 x 2
+##   pares_distintos maxim
+##             &lt;int&gt; &lt;int&gt;
+## 1              33    35
+```
+
 ---
 
 ## Funciones de agregación
@@ -317,9 +559,37 @@ summarize(mpg, max_cyl = max(cyl), avg_cty = mean(cty), min_year = min(year))
     + Rango: `max()`, `min()`, `quantile()`
     + Posición: `first()`, `last()`, `nth()`
     + Lógicas: `any()`, `all()`
-    + *Conteo*: `n()`, `n_distinct()` (solo se pueden usar dentro de `summarize()`)
+    + *Conteo*: `n()`, `n_distinct()`
+      - Solo se pueden usar dentro de `summarize()`
+      - `n()` no recibe argumentos, `n_distinct()` el nombre de la(s) columna(s).
     
-- Todas reducen un vector de números a un único resultado
+- Todas reducen un vector de números a un único resultado.
+&lt;center&gt;
+&lt;img src="img/summary_function.png" width="50%" /&gt;
+&lt;/center&gt;
+
+
+---
+
+## Otras funciones para agregar variables
+
+
+- `sumarize_all`: Aplica la función de agregación a todas las columnas. Se aplica la función a cada columna individualmente.
+
+```r
+# todas las columnas de tipo caracter
+summarize_all(mpg,max)
+```
+- `summarize_at`: Aplica la función de agragación a un subconjunto de columnas pasadas como argumento. Se aplica la función a cada columna individualmente.
+
+```r
+summarize_at(mpg,c("displ","year","cyl","cty","hwy"),max)
+```
+- `summarize_if`: Aplica la función de agregación a todas las columnas que cumplen una condición lógica especificada. Se aplica la función a cada columna individualmente.
+
+```r
+summarize_if(mpg,is.numeric,max)
+```
 
 ---
 
@@ -374,25 +644,103 @@ mpg %&gt;%
 
 ---
 
+
 ## Operaciones agrupadas
 
-- La función `group_by()` convierte un data frame en otro agrupado por una o más variables
-- En los data frames agrupados todas las operaciones anteriores se realizan "por grupo"
-- `ungroup()` elimina la agrupación
+- La función `group_by()` convierte un data frame en otro agrupado por una o más variables.
+- En los data frames agrupados todas las operaciones anteriores se realizan "por grupo".
+- `ungroup()` elimina la agrupación.
 
 ---
 
-## Operaciones agrupadas (cont.)
+## Slice con group_by
 
-- `slice()` los indices son relativos al grupo
-- `select()` mantiene siempre las variables agrupadas, aunque no se indique explicitamente
-- `arrange()` ordena en primer lugar por las variables agrupadas
+- Los indices son relativos al grupo.
 
+```r
+mpg %&gt;%
+  group_by(cyl) %&gt;%
+  slice(1:2)
+```
+
+```
+## # A tibble: 8 x 11
+## # Groups:   cyl [4]
+##   manufacturer model  displ  year   cyl trans drv     cty   hwy fl    class
+##   &lt;chr&gt;        &lt;chr&gt;  &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+## 1 audi         a4       1.8  1999     4 auto… f        18    29 p     comp…
+## 2 audi         a4       1.8  1999     4 manu… f        21    29 p     comp…
+## 3 volkswagen   jetta    2.5  2008     5 auto… f        21    29 r     comp…
+## 4 volkswagen   jetta    2.5  2008     5 manu… f        21    29 r     comp…
+## 5 audi         a4       2.8  1999     6 auto… f        16    26 p     comp…
+## 6 audi         a4       2.8  1999     6 manu… f        18    26 p     comp…
+## 7 audi         a6 qu…   4.2  2008     8 auto… 4        16    23 p     mids…
+## 8 chevrolet    c1500…   5.3  2008     8 auto… r        14    20 r     suv
+```
 ---
 
+## Select con group_by
+
+- `select()` mantiene siempre las variables agrupadas, aunque no se indique explicitamente.
+
+```r
+dim(mpg)
+data &lt;- mpg %&gt;%
+  group_by(cyl) %&gt;%
+  select(cty)
+dim(data)
+```
+
+```r
+data &lt;- mpg %&gt;%
+  group_by(cyl) %&gt;%
+  select(cty)
+glimpse(data)
+```
+
+```
+## Observations: 234
+## Variables: 2
+## Groups: cyl [4]
+## $ cyl &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 8, 8, 8, …
+## $ cty &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 17, 17, 15, …
+```
+---
+
+## arrange con group_by
+
+- `arrange()` ordena por la(s) variable(s) especificadas como parámetros.
+
+
+```r
+data &lt;- mpg %&gt;%
+  group_by(cyl) %&gt;%
+  arrange(manufacturer)
+glimpse(data)
+```
+
+```
+## Observations: 234
+## Variables: 11
+## Groups: cyl [4]
+## $ manufacturer &lt;chr&gt; "audi", "audi", "audi", "audi", "audi", "audi", "au…
+## $ model        &lt;chr&gt; "a4", "a4", "a4", "a4", "a4", "a4", "a4", "a4 quatt…
+## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0, 2…
+## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 199…
+## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, …
+## $ trans        &lt;chr&gt; "auto(l5)", "manual(m5)", "manual(m6)", "auto(av)",…
+## $ drv          &lt;chr&gt; "f", "f", "f", "f", "f", "f", "f", "4", "4", "4", "…
+## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 17,…
+## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 25,…
+## $ fl           &lt;chr&gt; "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "…
+## $ class        &lt;chr&gt; "compact", "compact", "compact", "compact", "compac…
+```
+
+
+---
 ## summarize con group_by
 
-Un `summarize()` sobre un data frame agrupado devuelve otro con tantas filas como grupos (valores distintos de la/s variable/s usadas para agrupar)
+Un `summarize()` sobre un data frame agrupado devuelve otro con tantas filas como grupos (valores distintos de la/s variable/s usadas para agrupar).
 
 
 ```r
@@ -415,42 +763,56 @@ mpg %&gt;%
 
 ## mutate con group_by
 
-Un `mutate()` sobre un data frame agrupado devuelve siempre otro data frame con el mismo número de filas que el original
+Un `mutate()` sobre un data frame agrupado devuelve siempre otro data frame con el mismo número de filas que el original.
 
 
 ```r
-mpg %&gt;%
+data &lt;- mpg %&gt;%
   group_by(cyl) %&gt;%
   mutate(avg_cty = mean(cty))
+glimpse(data)
 ```
 
 ```
-## # A tibble: 234 x 12
-## # Groups:   cyl [4]
-##    manufacturer model displ  year   cyl trans drv     cty   hwy fl    class
-##    &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-##  1 audi         a4      1.8  1999     4 auto… f        18    29 p     comp…
-##  2 audi         a4      1.8  1999     4 manu… f        21    29 p     comp…
-##  3 audi         a4      2    2008     4 manu… f        20    31 p     comp…
-##  4 audi         a4      2    2008     4 auto… f        21    30 p     comp…
-##  5 audi         a4      2.8  1999     6 auto… f        16    26 p     comp…
-##  6 audi         a4      2.8  1999     6 manu… f        18    26 p     comp…
-##  7 audi         a4      3.1  2008     6 auto… f        18    27 p     comp…
-##  8 audi         a4 q…   1.8  1999     4 manu… 4        18    26 p     comp…
-##  9 audi         a4 q…   1.8  1999     4 auto… 4        16    25 p     comp…
-## 10 audi         a4 q…   2    2008     4 manu… 4        20    28 p     comp…
-## # … with 224 more rows, and 1 more variable: avg_cty &lt;dbl&gt;
+## Observations: 234
+## Variables: 12
+## Groups: cyl [4]
+## $ manufacturer &lt;chr&gt; "audi", "audi", "audi", "audi", "audi", "audi", "au…
+## $ model        &lt;chr&gt; "a4", "a4", "a4", "a4", "a4", "a4", "a4", "a4 quatt…
+## $ displ        &lt;dbl&gt; 1.8, 1.8, 2.0, 2.0, 2.8, 2.8, 3.1, 1.8, 1.8, 2.0, 2…
+## $ year         &lt;int&gt; 1999, 1999, 2008, 2008, 1999, 1999, 2008, 1999, 199…
+## $ cyl          &lt;int&gt; 4, 4, 4, 4, 6, 6, 6, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, …
+## $ trans        &lt;chr&gt; "auto(l5)", "manual(m5)", "manual(m6)", "auto(av)",…
+## $ drv          &lt;chr&gt; "f", "f", "f", "f", "f", "f", "f", "4", "4", "4", "…
+## $ cty          &lt;int&gt; 18, 21, 20, 21, 16, 18, 18, 18, 16, 20, 19, 15, 17,…
+## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 25,…
+## $ fl           &lt;chr&gt; "p", "p", "p", "p", "p", "p", "p", "p", "p", "p", "…
+## $ class        &lt;chr&gt; "compact", "compact", "compact", "compact", "compac…
+## $ avg_cty      &lt;dbl&gt; 21.01235, 21.01235, 21.01235, 21.01235, 16.21519, 1…
 ```
 
 ---
 
+## Ejercicio
+
+1. En el dataset iris queremos saber si la media de la longitud del pétalo es muy distinta entre los distintos tipos de flor.
+
+---
+
+
 ## joins
 
-- La librería `dplyr` implementa funciones para unir data frames: `inner_join()`, `left_join()`, `right_join()` y `full_join()`
+- La librería `dplyr` implementa funciones para unir data frames: 
+  + `inner_join(x,y)`: Devuelve las filas que crucen tant en x como en y.
+  + `left_join(x,y)`: Devuelve todas, las filas en x y las que crucen en y (completa con NA)
+  + `right_join(x,y)`: Devuelve todas las filas en y y las que crucen en x (completa con NA).
+  + `full_join(x,y)`: Devuelve todas las filas de x e y (completa con NA).
+  + `semi_join(x,y)`: Devuelve solo las filas de x que crucen con y (pero no y).
+  + `anti_join(x,y)`: Devuelve solo las filas de x que NO crucen con y.
 
 - Diagrama de Venn [R for Data Science]
 &lt;center&gt;
-![Diagrama de Venn](join-venn.png)
+&lt;img src="img/join-venn.png" width="80%" /&gt;
 &lt;/center&gt;
 
 ---
@@ -473,7 +835,39 @@ mpg %&gt;%
 
 ```r
 t4a &lt;- gather(table4a, key = "year", value = "cases", num_range("", 1999:2000))
+head(t4a,4)
+```
+
+```
+## # A tibble: 4 x 3
+##   country     year   cases
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
+## 1 Afghanistan 1999     745
+## 2 Brazil      1999   37737
+## 3 China       1999  212258
+## 4 Afghanistan 2000    2666
+```
+
+```r
 t4b &lt;- gather(table4b, key = "YEAR", value = "population", `1999`:`2000`)
+head(t4b,4)
+```
+
+```
+## # A tibble: 4 x 3
+##   country     YEAR  population
+##   &lt;chr&gt;       &lt;chr&gt;      &lt;int&gt;
+## 1 Afghanistan 1999    19987071
+## 2 Brazil      1999   172006362
+## 3 China       1999  1272915272
+## 4 Afghanistan 2000    20595360
+```
+
+---
+
+## Ejemplo (cont.)
+
+```r
 inner_join(t4a, t4b, by=c("year" = "YEAR", "country"))
 ```
 
@@ -488,51 +882,82 @@ inner_join(t4a, t4b, by=c("year" = "YEAR", "country"))
 ## 5 Brazil      2000   80488  174504898
 ## 6 China       2000  213766 1280428583
 ```
-
----
-
-## Operar en múltiples columnas
-
-- dplyr tiene [variantes](https://dplyr.tidyverse.org/reference/scoped.html) de sus funciones principales que operan sobre múltiples columnas
-- La selección de columnas puede ser:
-    + Todas, funciones que terminan en `_all`
-    + Con un predicado, funciones que terminan en `_if`
-    + Vector con nombres, posiciones o función [`vars()`](https://dplyr.tidyverse.org/reference/vars.html)
-
 ---
 
 
-```r
-summarize_all(mpg, funs(sum(is.na(.))))
-```
+## Operaciones de conjuntos con dplyr
 
-```
-## # A tibble: 1 x 11
-##   manufacturer model displ  year   cyl trans   drv   cty   hwy    fl class
-##          &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
-## 1            0     0     0     0     0     0     0     0     0     0     0
-```
-
+- `dplyr` implementa la lógica de operaciones con conjuntos sobre tibbles.
+  + `intersect(x,y)`: Filas que aparecen tanto en x como en y.
+  + `union(x,y)`: Filas que aparecen en x, en y, o en ambos.
+  + `setdiff(x,y)`: Filas que aparecen en x, pero no en y.
+  
 
 ```r
-mutate_if(mpg, is.numeric, log)
+x &lt;- tibble(
+  x1=c("A","B","C"),
+  x2=1:3
+)
+y &lt;- tibble(
+  x1=c("B","C","D"),
+  x2=2:4
+)
+dplyr::intersect(x,y)
+dplyr::union(x,y)
+dplyr::setdiff(x,y)
+```
+
+
+---
+
+
+## Añadir filas y/o columnas en dplyr
+
+- `dplyr` implementa las funciones `bind_rows` y `bind_cols` para añadir filas o columnas a un tibble, respectivamente.
+- Las funciones de `dplyr` son &lt;u&gt;más eficientes&lt;/u&gt; que las funciones `rbind` y `cbind` de R base. 
+- En `bin_rows` las columnas se combinan por nombre y las columnas que no están en alguno de los dataframes se rellenan con NAs.
+
+
+```r
+# You can mix vectors and data frames:
+bind_rows(
+  c(a = 1, b = 2),
+  tibble(saludo="hola",a = 3:4, b = 5:6),
+  c(a = 7, b = 8)
+)
 ```
 
 ```
-## # A tibble: 234 x 11
-##    manufacturer model displ  year   cyl trans drv     cty   hwy fl    class
-##    &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
-##  1 audi         a4    0.588  7.60  1.39 auto… f      2.89  3.37 p     comp…
-##  2 audi         a4    0.588  7.60  1.39 manu… f      3.04  3.37 p     comp…
-##  3 audi         a4    0.693  7.60  1.39 manu… f      3.00  3.43 p     comp…
-##  4 audi         a4    0.693  7.60  1.39 auto… f      3.04  3.40 p     comp…
-##  5 audi         a4    1.03   7.60  1.79 auto… f      2.77  3.26 p     comp…
-##  6 audi         a4    1.03   7.60  1.79 manu… f      2.89  3.26 p     comp…
-##  7 audi         a4    1.13   7.60  1.79 auto… f      2.89  3.30 p     comp…
-##  8 audi         a4 q… 0.588  7.60  1.39 manu… 4      2.89  3.26 p     comp…
-##  9 audi         a4 q… 0.588  7.60  1.39 auto… 4      2.77  3.22 p     comp…
-## 10 audi         a4 q… 0.693  7.60  1.39 manu… 4      3.00  3.33 p     comp…
-## # … with 224 more rows
+## # A tibble: 4 x 3
+##       a     b saludo
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
+## 1     1     2 &lt;NA&gt;  
+## 2     3     5 hola  
+## 3     4     6 hola  
+## 4     7     8 &lt;NA&gt;
+```
+---
+
+## Añadir filas y/o columnas en dplyr (cont.)
+
+- En `bind_cols` se unen las subtablas por posición -&gt; todos los dataframes deben tener el mismo número de filas.
+  + Para unir por valores, usar `join`.
+
+
+```r
+# Both have to be tibbles
+bind_cols(
+  tibble(a = 3:4, b = c("a","b")),
+  tibble(logical = c(T,F))
+)
+```
+
+```
+## # A tibble: 2 x 3
+##       a b     logical
+##   &lt;int&gt; &lt;chr&gt; &lt;lgl&gt;  
+## 1     3 a     TRUE   
+## 2     4 b     FALSE
 ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
@@ -581,7 +1006,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {

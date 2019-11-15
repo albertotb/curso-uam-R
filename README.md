@@ -2,7 +2,12 @@
 
 1. Introducción a R [[slides]](./src/00-intro.html)
     * IDE RStudio
-    * Clase data.frame
+    * Tipos de datos básicos y sus operadores en R Base:
+      + Vectores.
+      + Arrays y matrices.
+      + Listas.
+      + Factores.
+      + Dataframes (clase data.frame).
     * Introducción a RMarkdown
 
 2. Manipular datos con `dplyr` [[slides]](./src/01-dplyr.html)
@@ -10,46 +15,50 @@
     * Seleccionar columnas con `select`
     * Crear nuevas columnas con `mutate`
     * Ordenar y realizar cálculos con `arrange` y `summarize`
+    * Sentencia `group_by`
+    * Operaciones agrupadas
+    * Operaciones en múltiples columnas
+    * `dplyr` avanzado
+      * Joins
+      * Operaciones de conjuntos
+      * Añadir filas y/o columnas
 
+<!--
 3. Funciones útiles de R base
     * Agregaciones: `mean`, `sd`, `sum`, etc.
     * Vectorizadas y operadores: `is.na`, `%in%`, "==", "+", etc.
     * Operaciones con conjuntos: `setdiff`, `union`, etc.
+-->
 
-4. Visualizar datos con `ggplot2` [[slides]](./src/02-ggplot2.html)
+3. Visualizar datos con `ggplot2` [[slides]](./src/02-ggplot2.html)
     * Introducción a la gramática de gráficos
     * Gráficos de puntos (`geom_point`)
     * Gráficos de lineas (`geom_line`)
     * Gráficos de barras (`geom_bar`)
-    * Transformaciones estadísticas (`geom_hist`)
+    * Transformaciones estadísticas (`geom_histogram`)
 
-5. `dplyr` avanzado
-    * Sentencia `group_by`
-    * Operaciones agrupadas
-    * Operaciones en múltiples columnas
-    * Joins
 
-6. Transformar data.frames con `tidyr` [[slides]](./src/03-tidyr.html)
+4. Transformar data.frames con `tidyr` [[slides]](./src/03-tidyr.html)
     * Transformar entre formatos ancho y largo (`spread` y `gather`)
     * Separar o unir columnas (`separate` y `unite`)
 
-7. Lectura de datos con `readr` y `readxl` [[slides]](./src/04-readr.html)
+5. Lectura de datos con `readr` y `readxl` [[slides]](./src/04-readr.html)
     * Importar archivos CSV
     * Importar archivos texto plano con delimitadores
     * Importar Excel
     * Opciones más comunes
 
-8. `ggplot2` avanzado
+6. `ggplot2` avanzado
     * Facetas  (`facet_wrap`, `facet_grid`)
     * Ejes
     * Estilos
 
-9. Tipos de datos avanzados
+7. Tipos de datos avanzados
     * Cadenas de texto (`stringr`) [[slides]](./src/05-stringr.html)
     * Factores (`forcats`) [[slides]](./src/06-forcats.html)
     * Fechas (`lubridate`) [[slides]](./src/07-lubridate.html)
 
-10. Programación funcional con `purrr`
+8. Programación funcional con `purrr`
 
 
 ## Enlaces:
