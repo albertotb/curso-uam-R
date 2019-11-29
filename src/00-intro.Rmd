@@ -38,7 +38,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, collapse = 
 ## Ventajas de R
 
 - Proyecto GNU (**open source**), cualquiera puede contribuir al desarrollo.
-- Gran cantidad de **paquetes/librerías** (9319 a 10 de octubre de 2019 -> 15103 a 12 de octubre de 2019):
+- Gran cantidad de **paquetes/librerías** (15103 a 12 de octubre de 2019):
   + https://cran.r-project.org/web/packages/
 - La gran mayoría de nuevas tecnologías y algoritmos relacionados con **estadística** aparecen primero en R.
 - **Documentación** abundante en Internet, muchos **grupos de usuarios** activos.
@@ -90,7 +90,7 @@ knitr::include_graphics("img/r_vs_python.png")
 - El **intérprete de R** (Base R) está disponible para los principales sistemas operativos (Windows, Linux, MacOS): 
     + [http://cran.r-project.org](http://cran.r-project.org)
 
-- Recomendado el uso del IDE RStudio
+- Recomendado el uso del **IDE RStudio**:
     + [http://www.rstudio.com](http://www.rstudio.com)
     + RStudio proporciona un entorno similar al de Matlab o al entorno Spyder de Anaconda.
     
@@ -125,6 +125,20 @@ knitr::include_graphics("img/Rstudio.png")
 
 ---
 
+## Directorio de trabajo
+
+- Se puede consultar el directorio de trabajo con el comando `getwd()`.
+- Se puede modificar el directorio de trabajo con el comando `setwd()`.
+
+```{r,eval=F}
+getwd()
+setwd("/home/irene/miproyectoR")
+```
+
+* Cuando se lee/escribe un fichero, salvo se especifique la ruta absoluta, se asume ruta relativa respecto al directorio de trabajo.
+---
+
+
 ## Librerías
 
 
@@ -133,7 +147,7 @@ knitr::include_graphics("img/Rstudio.png")
 - No forman parte del núcleo de R (R base).
   + Base R contiene muchas de las fucniones que se utilizarán comúnmente como `mean()` o `hist()`.
   + Solo las funciones implementadas por los autores originales de R se pueden encontrar en Base R.
-- Se pueden instalar muy facilmente.
+- Se pueden instalar muy fácilmente.
 - Mucha de la funcionalidad de R viene dada por la cantidad de paquetes que existen.
   + [https://support.rstudio.com/hc/en-us/articles/201057987-Quick-list-of-useful-R-packages](https://support.rstudio.com/hc/en-us/articles/201057987-Quick-list-of-useful-R-packages)
   
@@ -251,7 +265,6 @@ source("fichero.R")
 - Para obtener **ayuda** sobre un determinado comando se utiliza la expresión `help("sum")`; o, alternativamente `?sum`.
 
 ---
-
 
 ## Funciones
 
@@ -415,14 +428,14 @@ seq(from=9, to=1, length.out=4)
 ## Vectores (aleatorios)
 
 - R tiene varias funciones para generar números aleatorios.
-  1. A partir de valores especificados
+    1. A partir de valores especificados
     ```{r,eval=T}
     sample(x=1:10, size=5)
     sample(x=1:10, size=20, replace=TRUE)
     # Ejercicio: simular 5 tiradas de una moneada trucada ("cara", "cruz") con probabilidad de "cara" de 0.8
     ```
   
-  2. A partir de distribuciones de probabilidad conocidas (normal, uniforme, etc.). Para ver todas las distribuciones: `?Distributions`.
+    2. A partir de distribuciones de probabilidad conocidas (normal, uniforme, etc.). Para ver todas las distribuciones: `?Distributions`.
     ```{r,eval=T}
     rnorm(n=10, mean=4, sd=0.5)
     runif(n=10, min=4, max=10)
@@ -452,8 +465,7 @@ z <- 10:8
 x + z
 
 # Operaciones lógicas: !, &, |, xor(x,y)
-x <- 1:3
-z <- c(1,0,3)
+x <- 1:3; z <- c(1,0,3)
 !z
 x & z
 ```
@@ -568,10 +580,9 @@ knitr::include_graphics("img/funcs_vectores.png")
 
 
 ## Operaciones de conjuntos sobre vectores
-- Sobre los vectores se pueden hacer las operaciones matemáticas estándar de conjuntos: union, intersección, diferencia, etc.
+- Sobre los vectores se pueden hacer las operaciones matemáticas estándar de conjuntos:
 ```{r,eval=T}
-a <- c(2,4,5,6,1,2,5)
-b <- c(1,7,10,9,2,1,2)
+a <- c(2,4,5,6,1,2,5); b <- c(1,7,10,9,2,1,2)
 # union
 union(a,b)
 
@@ -920,7 +931,7 @@ knitr::include_graphics("img/datatable_vs_dplyr.png")
 # R Markdown
 
 - Los [R Markdown](https://rmarkdown.rstudio.com/) son similares a los notebooks de Python, y permiten tener en un único documento partes de texto (markdown) y partes de código.
-- R Markdown sopote decenas de formatos de salida: HTML,PDF, MS Word, aplicaciones Shiny, etc.
+- R Markdown soporta decenas de formatos de salida: HTML,PDF, MS Word, aplicaciones Shiny, etc.
 - Permite también generar el output en forma de diapositivas (¡como éstas!).
 - Más información sobre R Markdown en [R for Data Science](https://r4ds.had.co.nz/r-markdown.html).
 - El paquete [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/) permite generar R Markdowns para dashboards interactivos.
