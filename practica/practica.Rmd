@@ -44,16 +44,16 @@ Vamos a trabajar con los ficheros "Estaciones.txt" y "Precios_2017_04_02.txt" ([
   
   17. Añade una variable de tipo lógico con nombre `ind_24H`, indicando si la gasolinera es 24H.
   
-  18. Realizar un gráfico de barras con el conteo de estaciones por cada tipo de rótulo.
+  18. Realiza un gráfico de barras con el conteo de estaciones por cada tipo de rótulo.
   
-  19. Convertir la variable rótulo en un factor que tenga 6 niveles: los 5 rótulos más frecuentes y un nivel "Otros" con el resto. 
+  19. Convierte la variable rótulo en un factor que tenga 6 niveles: los 5 rótulos más frecuentes y un nivel "Otros" con el resto. 
   
   20. Representa cada gasolinera como un punto en función de su longitud y latitud. Cada punto debe tener un tamaño proporcional al precio de la gasolina 95 y el color debe indicar si se trata de una gasolinera Cepsa, Repsol u otros.
 
 
 ## Criterios de evaluación 
 
-La práctica se califica sobre 10 puntos. Cada ejercicio tiene un valor de 0.5. Para resolver los ejercicios se pueden utilizar indistintamente funciones de R base o de paquetes adicionales, aunque se recomienda el uso de las funciones del tidyverse. Es conveniente (y se valorará) utilizar un estilo de programación adecuado. Algunas directrices pueden encontrarse en la Guía de
+**La práctica se califica sobre 10 puntos. Cada ejercicio tiene un valor de 0.5.** Para resolver los ejercicios se pueden utilizar indistintamente funciones de R base o de paquetes adicionales, aunque se recomienda el uso de las funciones del tidyverse. Es conveniente (y se valorará) utilizar un estilo de programación adecuado. Algunas directrices pueden encontrarse en la Guía de
 estilo [http://style.tidyverse.org/](http://style.tidyverse.org/). Además del estilo, se valorará que el código R sea:
 
   * Correcto
