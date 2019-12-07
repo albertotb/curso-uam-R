@@ -10,7 +10,7 @@ output:
 
 Vamos a trabajar con los ficheros "Estaciones.txt" y "Precios_2017_04_02.txt" ([fuente](https://geoportalgasolineras.es/#/Descargas)), que contienen información sobre el precio de distintos carburantes el día 2 de Abril de 2017 en estaciones de toda España:
 
-  1. Leer fichero de precios. Asegúrate de que todas las variables de precios son numéricas.
+  1. Lee fichero de precios. Asegúrate de que todas las variables de precios son numéricas.
   
   2. Cambia los espacios en los nombres de las columnas por '_'.
   
@@ -30,7 +30,7 @@ Vamos a trabajar con los ficheros "Estaciones.txt" y "Precios_2017_04_02.txt" ([
   
   10. Selecciona las 5 gasolineras con el precio de gasóleo B más barato.
   
-  11. Añadir dos nuevas variables con los litros por euro de gasolina 95 y 98.
+  11. Añade dos nuevas variables con los litros por euro de gasolina 95 y 98.
   
   12. Crea un nuevo dataframe con las columnas `ID_estacion`, `fecha`, `tipo_gasolina` y `precio` y guarda el resultado en la variable `precios_long`. La variable `tipo_gasolina` tendrá los valores: "Precio gasolina 95", "Precio gasóleo A", "Precio gasóleo B", "Precio bioetanol", "Precio nuevo gasóleo A", "Precio biodiesel", "Precio gasolina 98", "Precio gas natural comprimido", "Precio gas natural licuado" y "Precio gases licuados del petróleo".
   
@@ -48,7 +48,7 @@ Vamos a trabajar con los ficheros "Estaciones.txt" y "Precios_2017_04_02.txt" ([
   
   19. Convertir la variable rótulo en un factor que tenga 6 niveles: los 5 rótulos más frecuentes y un nivel "Otros" con el resto. 
   
-  20. Mas gráficas. Irene. Logitud, latitud, poner punto y escalar por precio de una gasolinera y colorear por el rótulo. Pintarlo para ver que tiene sentido.
+  20. Representa cada gasolinera como un punto en función de su longitud y latitud. Cada punto debe tener un tamaño proporcional al precio de la gasolina 95 y el color debe indicar si se trata de una gasolinera Cepsa, Repsol u otros.
 
 
 ## Criterios de evaluación 

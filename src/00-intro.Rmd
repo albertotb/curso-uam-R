@@ -1,7 +1,7 @@
 ---
 title: "Introducción"
 subtitle: "Fundamentos lenguajes: R"
-author: "Alberto Torres y Irene Rodríguez"
+author: "Alberto Torres e Irene Rodríguez"
 date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -879,7 +879,7 @@ mtcars$mpg
 ```{r, eval=F}
 # con corchetes simples e indices de las columnas (positivos o negativos)
 mtcars[c(1,3)]
-mtcars[c(-2,4)]
+mtcars[c(-2,-4)]
 
 # con corchetes simples y vector con nombre de columnas
 mtcars[c("mpg","disp")]
