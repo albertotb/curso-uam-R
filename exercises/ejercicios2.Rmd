@@ -233,3 +233,19 @@ data %>%
   ggplot(aes(x = Mes, y = Ventas)) + geom_col() + facet_wrap(vars(Codigo)) + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
 ```
 
+
+## Plantas
+
+Datos: https://github.com/gavinsimpson/plant-phys/raw/master/f18ph.xls
+
+1. Importar los datos originales:
+
+  * Las columnas `treatment`, `cultivar` y `plantid` contienen el tratamiento aplicado, tipo de la planta e ID
+  
+  * El resto de columnas tienen el formato `variable:dias`, es decir, la medición de distintas variables a lo largo del crecimiento de la planta (dias)
+
+2. Convertir en un dataframe que tenga las variables: `treatment`, `cultivar`, `plantid`, `day`, `height`, `internodes`, `freshwt`
+
+```{r}
+# Source: https://www.fromthebottomoftheheap.net/2019/10/25/pivoting-tidily/
+```
