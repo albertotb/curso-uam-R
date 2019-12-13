@@ -4,7 +4,7 @@
     <title>dplyr</title>
     <meta charset="utf-8" />
     <meta name="author" content="Alberto Torres e Irene Rodríguez" />
-    <meta name="date" content="2019-12-07" />
+    <meta name="date" content="2019-12-13" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # dplyr
 ## Fundamentos lenguajes: R
 ### Alberto Torres e Irene Rodríguez
-### 2019-12-07
+### 2019-12-13
 
 ---
 
@@ -71,7 +71,7 @@ MathJax.Hub.Config({
   + `mutate`: Añade nuevas variables(columnas) al dataframe como combinación de las ya existentes.
   + `summarize`: Colapsa el dataframe a una única fila.
 - Cada una de estas operaciones realiza una tarea concreta. Esto simplifica la legibilidad del código.
-- Estas operaciones se pueden componer para realizar otras más complejas utilizando **pipelines** (`%&gt;%`).
+- Estas operaciones se pueden componer para realizar otras más complejas utilizando **pipes** (`%&gt;%`).
 
 ```r
 iris %&gt;% 
@@ -113,9 +113,6 @@ tibble(
 
 ```r
 glimpse(iris)
-```
-
-```
 ## Observations: 150
 ## Variables: 5
 ## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5…
@@ -136,23 +133,15 @@ Selecciona filas por su posición
 ```r
 # con indices positivos
 slice(mpg, 1:3)
-```
-
-```
 ## # A tibble: 3 x 11
 ##   manufacturer model displ  year   cyl trans  drv     cty   hwy fl    class
 ##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
 ## 1 audi         a4      1.8  1999     4 auto(… f        18    29 p     comp…
 ## 2 audi         a4      1.8  1999     4 manua… f        21    29 p     comp…
 ## 3 audi         a4      2    2008     4 manua… f        20    31 p     comp…
-```
 
-```r
 # descartar filas usando indices negativos
 slice(mpg, -4:-234)
-```
-
-```
 ## # A tibble: 3 x 11
 ##   manufacturer model displ  year   cyl trans  drv     cty   hwy fl    class
 ##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
@@ -169,9 +158,6 @@ Selecciona filas por condiciones.
 
 ```r
 filter(mpg, model == "a4")
-```
-
-```
 ## # A tibble: 7 x 11
 ##   manufacturer model displ  year   cyl trans  drv     cty   hwy fl    class
 ##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
@@ -192,7 +178,7 @@ filter(mpg, model == "a4")
 - Dado que las condiciones se aplican sobre columnas del tibble y estas columnas son vectores, los operadores lógicos sobre vectores (devuelven vectores lógicos) se pueden utilizar para filtrar las filas de un dataframe.
 
 
-&lt;img src="img/operadores_logicos.png" width="100%" /&gt;
+&lt;img src="img/operadores_logicos.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -264,9 +250,6 @@ top_n(mpg,2,displ)
 
 ```r
 select(mpg, model, displ, cyl)
-```
-
-```
 ## # A tibble: 234 x 3
 ##    model      displ   cyl
 ##    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;
@@ -289,9 +272,6 @@ select(mpg, model, displ, cyl)
 
 ```r
 select(mpg, -manufacturer)
-```
-
-```
 ## # A tibble: 234 x 10
 ##    model      displ  year   cyl trans      drv     cty   hwy fl    class  
 ##    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  
@@ -318,9 +298,6 @@ select(mpg, -manufacturer)
 
 ```r
 select(mpg, model:trans)
-```
-
-```
 ## # A tibble: 234 x 5
 ##    model      displ  year   cyl trans     
 ##    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;     
@@ -354,9 +331,6 @@ select(mpg, model:trans)
 
 ```r
 glimpse(select(mpg,contains("c")))
-```
-
-```
 ## Observations: 234
 ## Variables: 4
 ## $ manufacturer &lt;chr&gt; "audi", "audi", "audi", "audi", "audi", "audi", "au…
@@ -374,9 +348,6 @@ glimpse(select(mpg,contains("c")))
 
 ```r
 arrange(mpg, desc(year), cyl)
-```
-
-```
 ## # A tibble: 234 x 11
 ##    manufacturer model displ  year   cyl trans drv     cty   hwy fl    class
 ##    &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
@@ -402,9 +373,6 @@ arrange(mpg, desc(year), cyl)
 
 ```r
 glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2))
-```
-
-```
 ## Observations: 234
 ## Variables: 12
 ## $ manufacturer &lt;chr&gt; "audi", "audi", "audi", "audi", "audi", "audi", "au…
@@ -429,10 +397,7 @@ glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2))
 
 
 ```r
-glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2, twice_cyl=2*cyl))
-```
-
-```
+glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2, twice_cyl = 2*cyl))
 ## Observations: 234
 ## Variables: 13
 ## $ manufacturer &lt;chr&gt; "audi", "audi", "audi", "audi", "audi", "audi", "au…
@@ -458,9 +423,6 @@ glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2, twice_cyl=2*cyl))
 
 ```r
 glimpse(transmute(mpg, avg_mpg = (cty+hwy)/2))
-```
-
-```
 ## Observations: 234
 ## Variables: 1
 ## $ avg_mpg &lt;dbl&gt; 23.5, 25.0, 25.5, 25.5, 21.0, 22.0, 22.5, 22.0, 20.5, 24…
@@ -471,22 +433,23 @@ glimpse(transmute(mpg, avg_mpg = (cty+hwy)/2))
 
 ## Otras funciones para crear nuevas variables (cont.)
 
-
 - `mutate_all`: Aplica una función a todas las columnas. Se aplica la función a cada columna individualmente.
 
 ```r
 # todas las columnas de tipo caracter
-mutate_all(mpg,as.character)
+mutate_all(mpg, as.character)
 ```
+
 - `mutate_at`: Aplica una función a un subconjunto de columnas pasadas como argumento. Se aplica la función a cada columna individualmente.
 
 ```r
-glimpse(mutate_at(mpg,c("displ","year","cyl","cty","hwy"),min))
+mutate_at(mpg, c("model", "year", "cyl", "class"), as.factor)
 ```
+
 - `mutate_if`: Aplica una función a todas las columnas que cumplen una condición lógica especificada. Se aplica la función a cada columna individualmente.
 
 ```r
-glimpse(mutate_if(mpg,is.numeric,min))
+mutate_if(mpg, is.numeric, log)
 ```
 
 ---
@@ -494,7 +457,7 @@ glimpse(mutate_if(mpg,is.numeric,min))
 ## Algunas funciones útiles para generar nuevas columnas
 
 &lt;center&gt;
-&lt;img src="img/mutate_funciones2.png" width="80%" /&gt;
+&lt;img src="img/mutate_funciones2.png" width="80%" style="display: block; margin: auto;" /&gt;
 &lt;/center&gt;
 
 
@@ -527,21 +490,12 @@ glimpse(mutate_if(mpg,is.numeric,min))
 
 ```r
 summarize(mpg, max_cyl = max(cyl), avg_cty = mean(cty), min_year = min(year))
-```
-
-```
 ## # A tibble: 1 x 3
 ##   max_cyl avg_cty min_year
 ##     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;
 ## 1       8    16.9     1999
-```
-
-```r
 # Algunas de las funciones de agregacion pueden operar sobre varias columnas
-summarize(mpg, pares_distintos = n_distinct(cyl,cty), maxim = max(cyl, cty))
-```
-
-```
+summarize(mpg, pares_distintos = n_distinct(cyl, cty), maxim = max(cyl, cty))
 ## # A tibble: 1 x 2
 ##   pares_distintos maxim
 ##             &lt;int&gt; &lt;int&gt;
@@ -565,7 +519,7 @@ summarize(mpg, pares_distintos = n_distinct(cyl,cty), maxim = max(cyl, cty))
     
 - Todas reducen un vector de números a un único resultado.
 &lt;center&gt;
-&lt;img src="img/summary_function.png" width="50%" /&gt;
+&lt;img src="img/summary_function.png" width="50%" style="display: block; margin: auto;" /&gt;
 &lt;/center&gt;
 
 
@@ -578,17 +532,19 @@ summarize(mpg, pares_distintos = n_distinct(cyl,cty), maxim = max(cyl, cty))
 
 ```r
 # todas las columnas de tipo caracter
-summarize_all(mpg,max)
+summarize_all(mpg, class)
 ```
+
 - `summarize_at`: Aplica la función de agragación a un subconjunto de columnas pasadas como argumento. Se aplica la función a cada columna individualmente.
 
 ```r
-summarize_at(mpg,c("displ","year","cyl","cty","hwy"),max)
+summarize_at(mpg,c("displ","year","cyl","cty","hwy"), max)
 ```
+
 - `summarize_if`: Aplica la función de agregación a todas las columnas que cumplen una condición lógica especificada. Se aplica la función a cada columna individualmente.
 
 ```r
-summarize_if(mpg,is.numeric,max)
+summarize_if(mpg, is.numeric, mean)
 ```
 
 ---
@@ -661,9 +617,6 @@ mpg %&gt;%
 mpg %&gt;%
   group_by(cyl) %&gt;%
   slice(1:2)
-```
-
-```
 ## # A tibble: 8 x 11
 ## # Groups:   cyl [4]
 ##   manufacturer model  displ  year   cyl trans drv     cty   hwy fl    class
@@ -696,9 +649,6 @@ data &lt;- mpg %&gt;%
   group_by(cyl) %&gt;%
   select(cty)
 glimpse(data)
-```
-
-```
 ## Observations: 234
 ## Variables: 2
 ## Groups: cyl [4]
@@ -717,9 +667,6 @@ data &lt;- mpg %&gt;%
   group_by(cyl) %&gt;%
   arrange(manufacturer)
 glimpse(data)
-```
-
-```
 ## Observations: 234
 ## Variables: 11
 ## Groups: cyl [4]
@@ -747,9 +694,6 @@ Un `summarize()` sobre un data frame agrupado devuelve otro con tantas filas com
 mpg %&gt;%
   group_by(cyl) %&gt;%
   summarize(avg_cty = mean(cty))
-```
-
-```
 ## # A tibble: 4 x 2
 ##     cyl avg_cty
 ##   &lt;int&gt;   &lt;dbl&gt;
@@ -771,9 +715,6 @@ data &lt;- mpg %&gt;%
   group_by(cyl) %&gt;%
   mutate(avg_cty = mean(cty))
 glimpse(data)
-```
-
-```
 ## Observations: 234
 ## Variables: 12
 ## Groups: cyl [4]
@@ -812,7 +753,7 @@ glimpse(data)
 
 - Diagrama de Venn [R for Data Science]
 &lt;center&gt;
-&lt;img src="img/join-venn.png" width="80%" /&gt;
+&lt;img src="img/join-venn.png" width="80%" style="display: block; margin: auto;" /&gt;
 &lt;/center&gt;
 
 ---
@@ -836,9 +777,6 @@ glimpse(data)
 ```r
 t4a &lt;- gather(table4a, key = "year", value = "cases", num_range("", 1999:2000))
 head(t4a,4)
-```
-
-```
 ## # A tibble: 4 x 3
 ##   country     year   cases
 ##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
@@ -846,14 +784,8 @@ head(t4a,4)
 ## 2 Brazil      1999   37737
 ## 3 China       1999  212258
 ## 4 Afghanistan 2000    2666
-```
-
-```r
 t4b &lt;- gather(table4b, key = "YEAR", value = "population", `1999`:`2000`)
 head(t4b,4)
-```
-
-```
 ## # A tibble: 4 x 3
 ##   country     YEAR  population
 ##   &lt;chr&gt;       &lt;chr&gt;      &lt;int&gt;
@@ -869,9 +801,6 @@ head(t4b,4)
 
 ```r
 inner_join(t4a, t4b, by=c("year" = "YEAR", "country"))
-```
-
-```
 ## # A tibble: 6 x 4
 ##   country     year   cases population
 ##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;      &lt;int&gt;
@@ -915,19 +844,16 @@ dplyr::setdiff(x,y)
 
 - `dplyr` implementa las funciones `bind_rows` y `bind_cols` para añadir filas o columnas a un tibble, respectivamente.
 - Las funciones de `dplyr` son &lt;u&gt;más eficientes&lt;/u&gt; que las funciones `rbind` y `cbind` de R base. 
-- En `bin_rows` las columnas se combinan por nombre y las columnas que no están en alguno de los dataframes se rellenan con NAs.
+- En `bind_rows` las columnas se combinan por nombre y las columnas que no están en alguno de los dataframes se rellenan con NAs.
 
 
 ```r
 # You can mix vectors and data frames:
 bind_rows(
   c(a = 1, b = 2),
-  tibble(saludo="hola",a = 3:4, b = 5:6),
+  tibble(saludo="hola", a = 3:4, b = 5:6),
   c(a = 7, b = 8)
 )
-```
-
-```
 ## # A tibble: 4 x 3
 ##       a     b saludo
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; 
@@ -945,14 +871,12 @@ bind_rows(
 
 
 ```r
+  
 # Both have to be tibbles
 bind_cols(
   tibble(a = 3:4, b = c("a","b")),
   tibble(logical = c(T,F))
 )
-```
-
-```
 ## # A tibble: 2 x 3
 ##       a b     logical
 ##   &lt;int&gt; &lt;chr&gt; &lt;lgl&gt;  

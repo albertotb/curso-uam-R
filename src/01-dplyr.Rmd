@@ -19,9 +19,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(forcats)
-library(lubridate)
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, collapse = TRUE, fig.align='center')
 ```
 
 <!-- util: https://atrebas.github.io/post/2019-03-03-datatable-dplyr/ -->
@@ -57,7 +55,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
   + `mutate`: Añade nuevas variables(columnas) al dataframe como combinación de las ya existentes.
   + `summarize`: Colapsa el dataframe a una única fila.
 - Cada una de estas operaciones realiza una tarea concreta. Esto simplifica la legibilidad del código.
-- Estas operaciones se pueden componer para realizar otras más complejas utilizando **pipelines** (`%>%`).
+- Estas operaciones se pueden componer para realizar otras más complejas utilizando **pipes** (`%>%`).
 ```{r, eval=F}
 iris %>% 
   select(Sepal.Width) %>%
@@ -260,7 +258,7 @@ glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2))
 - Es posible crear más de una variable en la misma llamada separando cada nueva variable con `,`.
 
 ```{r, echo=T}
-glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2, twice_cyl=2*cyl))
+glimpse(mutate(mpg, avg_mpg = (cty+hwy)/2, twice_cyl = 2*cyl))
 ```
 
 ---
@@ -277,19 +275,20 @@ glimpse(transmute(mpg, avg_mpg = (cty+hwy)/2))
 
 ## Otras funciones para crear nuevas variables (cont.)
 
-
 - `mutate_all`: Aplica una función a todas las columnas. Se aplica la función a cada columna individualmente.
 ```{r,eval=F}
 # todas las columnas de tipo caracter
-mutate_all(mpg,as.character)
+mutate_all(mpg, as.character)
 ```
+
 - `mutate_at`: Aplica una función a un subconjunto de columnas pasadas como argumento. Se aplica la función a cada columna individualmente.
 ```{r,eval=F}
-glimpse(mutate_at(mpg,c("displ","year","cyl","cty","hwy"),min))
+mutate_at(mpg, c("model", "year", "cyl", "class"), as.factor)
 ```
+
 - `mutate_if`: Aplica una función a todas las columnas que cumplen una condición lógica especificada. Se aplica la función a cada columna individualmente.
 ```{r,eval=F}
-glimpse(mutate_if(mpg,is.numeric,min))
+mutate_if(mpg, is.numeric, log)
 ```
 
 ---
@@ -332,7 +331,7 @@ knitr::include_graphics("img/mutate_funciones2.png")
 ```{r, echo=T}
 summarize(mpg, max_cyl = max(cyl), avg_cty = mean(cty), min_year = min(year))
 # Algunas de las funciones de agregacion pueden operar sobre varias columnas
-summarize(mpg, pares_distintos = n_distinct(cyl,cty), maxim = max(cyl, cty))
+summarize(mpg, pares_distintos = n_distinct(cyl, cty), maxim = max(cyl, cty))
 ```
 
 ---
@@ -366,15 +365,17 @@ knitr::include_graphics("img/summary_function.png")
 - `sumarize_all`: Aplica la función de agregación a todas las columnas. Se aplica la función a cada columna individualmente.
 ```{r,eval=F}
 # todas las columnas de tipo caracter
-summarize_all(mpg,max)
+summarize_all(mpg, class)
 ```
+
 - `summarize_at`: Aplica la función de agragación a un subconjunto de columnas pasadas como argumento. Se aplica la función a cada columna individualmente.
 ```{r,eval=F}
-summarize_at(mpg,c("displ","year","cyl","cty","hwy"),max)
+summarize_at(mpg,c("displ","year","cyl","cty","hwy"), max)
 ```
+
 - `summarize_if`: Aplica la función de agregación a todas las columnas que cumplen una condición lógica especificada. Se aplica la función a cada columna individualmente.
 ```{r,eval=F}
-summarize_if(mpg,is.numeric,max)
+summarize_if(mpg, is.numeric, mean)
 ```
 
 ---
@@ -588,13 +589,13 @@ dplyr::setdiff(x,y)
 
 - `dplyr` implementa las funciones `bind_rows` y `bind_cols` para añadir filas o columnas a un tibble, respectivamente.
 - Las funciones de `dplyr` son <u>más eficientes</u> que las funciones `rbind` y `cbind` de R base. 
-- En `bin_rows` las columnas se combinan por nombre y las columnas que no están en alguno de los dataframes se rellenan con NAs.
+- En `bind_rows` las columnas se combinan por nombre y las columnas que no están en alguno de los dataframes se rellenan con NAs.
 
 ```{r,eval=T}
 # You can mix vectors and data frames:
 bind_rows(
   c(a = 1, b = 2),
-  tibble(saludo="hola",a = 3:4, b = 5:6),
+  tibble(saludo="hola", a = 3:4, b = 5:6),
   c(a = 7, b = 8)
 )
 ```
