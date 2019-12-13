@@ -39,7 +39,7 @@
 
 
 4. Transformar data.frames con `tidyr` [[slides]](./src/03-tidyr.html)
-    * Transformar entre formatos ancho y largo (`spread` y `gather`)
+    * Transformar entre formatos ancho y largo (`pivot_wider` y `pivot_longer`)
     * Separar o unir columnas (`separate` y `unite`)
 
 5. Lectura de datos con `readr` y `readxl` [[slides]](./src/04-readr.html)
