@@ -4,7 +4,7 @@
     <title>Introducción</title>
     <meta charset="utf-8" />
     <meta name="author" content="Alberto Torres e Irene Rodríguez" />
-    <meta name="date" content="2019-12-07" />
+    <meta name="date" content="2019-12-14" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # Introducción
 ## Fundamentos lenguajes: R
 ### Alberto Torres e Irene Rodríguez
-### 2019-12-07
+### 2019-12-14
 
 ---
 
@@ -491,9 +491,9 @@ seq(from=9, to=1, length.out=4)
     
     ```r
     sample(x=1:10, size=5)
-    ## [1]  6 10  8  7  5
+    ## [1]  4  7  3 10  9
     sample(x=1:10, size=20, replace=TRUE)
-    ##  [1]  3  1  9  4  6  7  9  3  5  5 10  7 10 10 10  3  9  6 10  9
+    ##  [1]  6  5  6 10  3  7  9  8  3  4 10  6  5  4  7 10  4  4  5  4
     # Ejercicio: simular 5 tiradas de una moneada trucada ("cara", "cruz") con probabilidad de "cara" de 0.8
     ```
   
@@ -501,11 +501,11 @@ seq(from=9, to=1, length.out=4)
     
     ```r
     rnorm(n=10, mean=4, sd=0.5)
-    ##  [1] 3.980937 4.526811 3.813115 3.937631 3.258531 5.148662 3.912632
-    ##  [8] 3.671100 4.170685 4.335567
+    ##  [1] 3.838484 4.243785 4.113349 4.374984 3.093031 3.685851 3.346026
+    ##  [8] 3.832893 4.230987 3.826913
     runif(n=10, min=4, max=10)
-    ##  [1] 7.855698 6.034020 7.097801 8.258703 9.729950 5.226440 7.497033
-    ##  [8] 6.568651 6.754940 4.986229
+    ##  [1] 5.789717 6.201542 6.330633 6.259143 9.678502 4.444306 7.910475
+    ##  [8] 5.670370 6.381529 9.525983
     ```
 
 ---
@@ -557,10 +557,10 @@ sin(x)
 # Funciones estadísticas: sum, product, min, max, mean, sd, var, quantile, summary
 x &lt;- rnorm(n=5, mean=10, sd=5)
 mean(x)
-## [1] 10.10419
+## [1] 9.078821
 summary(x)
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-## -0.1218 10.0053 10.0978 10.1042 14.6611 15.8786
+##   1.464   7.581   9.009   9.079  13.453  13.888
 
 # ¡OJO con los missing values!
 x &lt;- c(1,2,3,NA,5,6,NA,8,9,0)
