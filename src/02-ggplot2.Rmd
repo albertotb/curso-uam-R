@@ -196,6 +196,8 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 
 ---
 
+https://ggplot2.tidyverse.org/reference/geom_point.html
+
 ```{r}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() +
@@ -269,7 +271,7 @@ ggplot(data = n_class) +
 
 ## Histograma
 
-- Dada una variable continua:
+- Dada una **variable continua**:
     + Ordenar sus valores
     + Elegir número de intervalos
     + Contar cuantos valores hay en cada intervalo

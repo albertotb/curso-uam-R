@@ -4,7 +4,7 @@
     <title>readr</title>
     <meta charset="utf-8" />
     <meta name="author" content="Alberto Torres Barrán y Irene Rodríguez Luján" />
-    <meta name="date" content="2019-12-13" />
+    <meta name="date" content="2019-12-14" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # readr
 ## Fundamentos lenguajes: R
 ### Alberto Torres Barrán y Irene Rodríguez Luján
-### 2019-12-13
+### 2019-12-14
 
 ---
 
@@ -63,7 +63,7 @@ mpg1 &lt;- read_csv("mpg.csv")
 head(mpg1)
 ## # A tibble: 6 x 11
 ##   manufacturer model displ  year   cyl trans  drv     cty   hwy fl    class
-##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
 ## 1 audi         a4      1.8  1999     4 auto(… f        18    29 p     comp…
 ## 2 audi         a4      1.8  1999     4 manua… f        21    29 p     comp…
 ## 3 audi         a4      2    2008     4 manua… f        20    31 p     comp…
@@ -81,7 +81,7 @@ head(mpg1)
 
 ```r
 getwd()
-## [1] "/home/alberto/Desktop/curso-uam-R/src"
+## [1] "/home/irenerodriguez/git_repos/curso-uam-R/src"
 ```
 
 - Se puede cambiar con `setwd()` o en la pestaña `Files` de RStudio
