@@ -1,0 +1,32 @@
+---
+title: "purrr"
+subtitle: "Fundamentos lenguajes: R"
+author: "Alberto Torres Barrán y Irene Rodríguez Luján"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "custom.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+    includes:
+      before_body: mathjax.html
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+library(stringr)
+library(forcats)
+library(lubridate)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+# purrr
+
+Iteración
+
+---
+

@@ -48,7 +48,7 @@
     * Importar Excel
     * Opciones más comunes
 
-6. `ggplot2` avanzado
+6. `ggplot2` avanzado [[slides]](./src/09-ggplot2_cont.html)
     * Facetas  (`facet_wrap`, `facet_grid`)
     * Ejes
     * Estilos
@@ -58,7 +58,7 @@
     * Factores (`forcats`) [[slides]](./src/06-forcats.html)
     * Fechas (`lubridate`) [[slides]](./src/07-lubridate.html)
 
-8. Programación funcional con `purrr`
+8. Programación funcional con `purrr` [[slides]](./src/08-purrr.html)
 
 
 ## Enlaces:

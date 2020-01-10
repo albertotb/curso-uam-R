@@ -1,0 +1,52 @@
+---
+title: "ggplot2 (continuación)"
+subtitle: "Fundamentos lenguajes: R"
+author: "Alberto Torres e Irene Rodríguez"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "custom.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+    includes:
+      before_body: mathjax.html
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(forcats)
+library(lubridate)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+## Facets
+
+- Otra opción para representar variables adicionales son las facetas
+- Cada faceta es un subgráfico realizado con un subconjunto de los datos
+
+---
+
+## facet_wrap
+
+```{r, echo=T}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~drv)
+```
+
+---
+
+## facet_grid
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ class)
+```
+
+---
