@@ -4,11 +4,11 @@
     <title>stringr</title>
     <meta charset="utf-8" />
     <meta name="author" content="Alberto Torres Barrán y Irene Rodríguez Luján" />
-    <meta name="date" content="2019-12-14" />
+    <meta name="date" content="2020-01-10" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <script src="libs/htmlwidgets-1.2/htmlwidgets.js"></script>
+    <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
     <link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet" />
-    <script src="libs/str_view-binding-1.3.1/str_view.js"></script>
+    <script src="libs/str_view-binding-1.4.0/str_view.js"></script>
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
   <body>
@@ -18,7 +18,7 @@ class: center, middle, inverse, title-slide
 # stringr
 ## Fundamentos lenguajes: R
 ### Alberto Torres Barrán y Irene Rodríguez Luján
-### 2019-12-14
+### 2020-01-10
 
 ---
 
@@ -55,36 +55,24 @@ MathJax.Hub.Config({
 
 ```r
 str_length(c("hola", "alberto", NA))
-```
-
-```
 ## [1]  4  7 NA
 ```
 
 
 ```r
 str_c("a", "b", "c")
-```
-
-```
 ## [1] "abc"
 ```
 
 
 ```r
 str_c("a", "b", "c", sep = ", ")
-```
-
-```
 ## [1] "a, b, c"
 ```
 
 
 ```r
 str_c("pre-", c("a", "b", "c"), "-suf")
-```
-
-```
 ## [1] "pre-a-suf" "pre-b-suf" "pre-c-suf"
 ```
 
@@ -96,9 +84,6 @@ Se puede obtener una subcadena a partir de las posiciones
 
 ```r
 str_sub("hola", 2, 3)
-```
-
-```
 ## [1] "ol"
 ```
 
@@ -127,8 +112,8 @@ x &lt;- c("moto", "coche", "autobus")
 str_view(x, "co")
 ```
 
-<div id="htmlwidget-161207a738259f389210" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-161207a738259f389210">{"x":{"html":"<ul>\n  <li>moto<\/li>\n  <li><span class='match'>co<\/span>che<\/li>\n  <li>autobus<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-35ff5d789a07811e9762" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-35ff5d789a07811e9762">{"x":{"html":"<ul>\n  <li>moto<\/li>\n  <li><span class='match'>co<\/span>che<\/li>\n  <li>autobus<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -137,8 +122,8 @@ str_view(x, "co")
 str_view(x, ".o")
 ```
 
-<div id="htmlwidget-6a0319e917803cd2e6df" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6a0319e917803cd2e6df">{"x":{"html":"<ul>\n  <li><span class='match'>mo<\/span>to<\/li>\n  <li><span class='match'>co<\/span>che<\/li>\n  <li>au<span class='match'>to<\/span>bus<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-990763f1979bf30cff57" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-990763f1979bf30cff57">{"x":{"html":"<ul>\n  <li><span class='match'>mo<\/span>to<\/li>\n  <li><span class='match'>co<\/span>che<\/li>\n  <li>au<span class='match'>to<\/span>bus<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -152,9 +137,6 @@ str_view(x, ".o")
 
 ```r
 writeLines("\\.")
-```
-
-```
 ## \.
 ```
 
@@ -163,17 +145,14 @@ writeLines("\\.")
 str_view(c("hola.", "adios."), "a\\.")
 ```
 
-<div id="htmlwidget-5b258602a7fe92aa5bab" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5b258602a7fe92aa5bab">{"x":{"html":"<ul>\n  <li>hol<span class='match'>a.<\/span><\/li>\n  <li>adios.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-67361954d8fc844f3ded" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-67361954d8fc844f3ded">{"x":{"html":"<ul>\n  <li>hol<span class='match'>a.<\/span><\/li>\n  <li>adios.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 
 ---
 
 
 ```r
 writeLines("\\\\")
-```
-
-```
 ## \\
 ```
 
@@ -182,8 +161,8 @@ writeLines("\\\\")
 str_view("carpeta\\fichero", "\\\\")
 ```
 
-<div id="htmlwidget-b7791501ef8eaa7963f0" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b7791501ef8eaa7963f0">{"x":{"html":"<ul>\n  <li>carpeta<span class='match'>\\<\/span>fichero<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1966262dea25119d98ba" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1966262dea25119d98ba">{"x":{"html":"<ul>\n  <li>carpeta<span class='match'>\\<\/span>fichero<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -196,8 +175,8 @@ str_view("carpeta\\fichero", "\\\\")
 str_view(c("tapar", "destapar"), "^tapar")
 ```
 
-<div id="htmlwidget-4c2ccd7cd3705f1847a3" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4c2ccd7cd3705f1847a3">{"x":{"html":"<ul>\n  <li><span class='match'>tapar<\/span><\/li>\n  <li>destapar<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-103dfdbbfe66b4b46579" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-103dfdbbfe66b4b46579">{"x":{"html":"<ul>\n  <li><span class='match'>tapar<\/span><\/li>\n  <li>destapar<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -234,8 +213,8 @@ str_view(c("test@test.com", "test@test12.com", "test@test",
          ".+@[^\\d\\s]+\\.(com|es)")
 ```
 
-<div id="htmlwidget-1633e6b159441a4e4c6a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1633e6b159441a4e4c6a">{"x":{"html":"<ul>\n  <li><span class='match'>test@test.com<\/span><\/li>\n  <li>test@test12.com<\/li>\n  <li>test@test<\/li>\n  <li><span class='match'>test@test.es<\/span><\/li>\n  <li>@test.com<\/li>\n  <li><span class='match'>te st@test.com<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-58c861109397771d420a" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-58c861109397771d420a">{"x":{"html":"<ul>\n  <li><span class='match'>test@test.com<\/span><\/li>\n  <li>test@test12.com<\/li>\n  <li>test@test<\/li>\n  <li><span class='match'>test@test.es<\/span><\/li>\n  <li>@test.com<\/li>\n  <li><span class='match'>te st@test.com<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -245,8 +224,8 @@ str_view(c("981945678", "981 945678", "+34 981945678"),
          "(\\+34\\s)?\\d{9}")
 ```
 
-<div id="htmlwidget-cc8e02c489bfb84036a5" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cc8e02c489bfb84036a5">{"x":{"html":"<ul>\n  <li><span class='match'>981945678<\/span><\/li>\n  <li>981 945678<\/li>\n  <li><span class='match'>+34 981945678<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1080d7fb27fea472fbe7" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1080d7fb27fea472fbe7">{"x":{"html":"<ul>\n  <li><span class='match'>981945678<\/span><\/li>\n  <li>981 945678<\/li>\n  <li><span class='match'>+34 981945678<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -256,8 +235,8 @@ str_view(c("981945678", "981 945678", "+34 981945678", "981 94 56 78"),
          "(\\+34\\s)?\\d{3}\\s?\\d{6}")
 ```
 
-<div id="htmlwidget-e038109aa53ce276692a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e038109aa53ce276692a">{"x":{"html":"<ul>\n  <li><span class='match'>981945678<\/span><\/li>\n  <li><span class='match'>981 945678<\/span><\/li>\n  <li><span class='match'>+34 981945678<\/span><\/li>\n  <li>981 94 56 78<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c1564e87ecd19806cf43" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c1564e87ecd19806cf43">{"x":{"html":"<ul>\n  <li><span class='match'>981945678<\/span><\/li>\n  <li><span class='match'>981 945678<\/span><\/li>\n  <li><span class='match'>+34 981945678<\/span><\/li>\n  <li>981 94 56 78<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -268,9 +247,6 @@ str_view(c("981945678", "981 945678", "+34 981945678", "981 94 56 78"),
 
 ```r
 str_detect(c("aba", "ebf", "atp"), "^a")
-```
-
-```
 ## [1]  TRUE FALSE  TRUE
 ```
 
@@ -279,9 +255,6 @@ str_detect(c("aba", "ebf", "atp"), "^a")
 
 ```r
 str_count(c("aba", "ebf", "atp"), "a")
-```
-
-```
 ## [1] 2 0 1
 ```
 
@@ -294,9 +267,6 @@ str_count(c("aba", "ebf", "atp"), "a")
 
 ```r
 str_extract(c("ab (cd)", "ef (gh)", "ij (kl)"), "\\(.*\\)")
-```
-
-```
 ## [1] "(cd)" "(gh)" "(kl)"
 ```
 
@@ -305,9 +275,6 @@ str_extract(c("ab (cd)", "ef (gh)", "ij (kl)"), "\\(.*\\)")
 
 ```r
 str_extract_all(c("a b c", "a f g"), "[abc]")
-```
-
-```
 ## [[1]]
 ## [1] "a" "b" "c"
 ## 
@@ -325,9 +292,6 @@ str_extract_all(c("a b c", "a f g"), "[abc]")
 ```r
 x &lt;- c("coche", "moto", "autobus")
 str_replace(x, "[aeiou]", "-")
-```
-
-```
 ## [1] "c-che"   "m-to"    "-utobus"
 ```
 
@@ -336,9 +300,6 @@ str_replace(x, "[aeiou]", "-")
 
 ```r
 str_replace_all(x, "[aeiou]", "-")
-```
-
-```
 ## [1] "c-ch-"   "m-t-"    "--t-b-s"
 ```
 
@@ -351,9 +312,6 @@ str_replace_all(x, "[aeiou]", "-")
 
 ```r
 str_split(c("a b c", "a f g"), "\\s")
-```
-
-```
 ## [[1]]
 ## [1] "a" "b" "c"
 ## 
