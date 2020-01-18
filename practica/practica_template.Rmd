@@ -50,7 +50,7 @@ Vamos a trabajar con los ficheros "Estaciones.txt" y "Precios_2017_04_02.txt" ([
 # añadir codigo aqui
 ```
   
-  9. Selecciona las variables de precio identificadas utilizando el dataframe resultado del ejercicio 5.
+  9. Selecciona las columnas que representan variables de precios usando el dataframe resultado del ejercicio 5.
 ```{r}
 # añadir codigo aqui
 ```
@@ -60,12 +60,13 @@ Vamos a trabajar con los ficheros "Estaciones.txt" y "Precios_2017_04_02.txt" ([
 # añadir codigo aqui
 ```
   
-  11. Añade dos nuevas variables con los litros por euro de gasolina 95 y 98.
+  
+  11. Añade dos nuevas variables con los litros por euro de gasolina 95 y 98 usando el dataframe del ejercicio 5.
 ```{r}
 # añadir codigo aqui
 ```
   
-  12. Crea un nuevo dataframe con las columnas `ID_estacion`, `fecha`, `tipo_gasolina` y `precio` y guarda el resultado en la variable `precios_long`. La variable `tipo_gasolina` tendrá los valores: "Precio gasolina 95", "Precio gasóleo A", "Precio gasóleo B", "Precio bioetanol", "Precio nuevo gasóleo A", "Precio biodiesel", "Precio gasolina 98", "Precio gas natural comprimido", "Precio gas natural licuado" y "Precio gases licuados del petróleo".
+  12. Crea un nuevo dataframe a partir del resultado del ejercicio 7 con las columnas `ID_estacion`, `fecha`, `tipo_gasolina` y `precio` y guarda el resultado en la variable `precios_long`. La variable `tipo_gasolina` tendrá los valores: "Precio gasolina 95", "Precio gasóleo A", "Precio gasóleo B", "Precio bioetanol", "Precio nuevo gasóleo A", "Precio biodiesel", "Precio gasolina 98", "Precio gas natural comprimido", "Precio gas natural licuado" y "Precio gases licuados del petróleo".
 ```{r}
 # añadir codigo aqui
 ```
