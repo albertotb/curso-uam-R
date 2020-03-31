@@ -4,7 +4,7 @@
     <title>ggplot2</title>
     <meta charset="utf-8" />
     <meta name="author" content="Alberto Torres e Irene Rodríguez" />
-    <meta name="date" content="2019-12-14" />
+    <meta name="date" content="2019-12-15" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="custom.css" type="text/css" />
   </head>
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # ggplot2
 ## Fundamentos lenguajes: R
 ### Alberto Torres e Irene Rodríguez
-### 2019-12-14
+### 2019-12-15
 
 ---
 
@@ -473,6 +473,32 @@ ggplot(data = mpg) +
 ```
 
 ![](02-ggplot2_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+
+---
+
+## geom_boxplot
+
+- Muy útil para representar la distribución de una variable continua respecto a una variable discreta.
+- El boxplot muestra 5 estadísticos de la variable continua: mínimo, máximo, mediana, primer y tercer cuartil. 
+
+
+```r
+ggplot(data=mpg) +
+  geom_boxplot(aes(x=class,y=displ))
+```
+
+![](02-ggplot2_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+
+
+---
+
+## ggplot en la práctica
+
+- Antes de representar cualquier gráfica en ggplot es altamente recomendable pensar qué representación necesitamos de los datos. 
+- Es preferible darle a ggplot los datos procesados de manera que puedan representarse fácilmente antes que intentar hacer estas transformaciones con ggplot.
+- **Ejemplo**: ¿Qué tabla se necesitaría generar para esta representación del dataset iris?
+
+![](02-ggplot2_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
