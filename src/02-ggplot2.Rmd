@@ -387,3 +387,31 @@ ggplot(data = mpg) +
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = cty, y = hwy), position = "jitter")
 ```
+
+---
+
+## geom_boxplot
+
+- Muy útil para representar la distribución de una variable continua respecto a una variable discreta.
+- El boxplot muestra 5 estadísticos de la variable continua: mínimo, máximo, mediana, primer y tercer cuartil. 
+
+```{r, fig.asp=0.6}
+ggplot(data=mpg) +
+  geom_boxplot(aes(x=class,y=displ))
+```
+
+
+---
+
+## ggplot en la práctica
+
+- Antes de representar cualquier gráfica en ggplot es altamente recomendable pensar qué representación necesitamos de los datos. 
+- Es preferible darle a ggplot los datos procesados de manera que puedan representarse fácilmente antes que intentar hacer estas transformaciones con ggplot.
+- **Ejemplo**: ¿Qué tabla se necesitaría generar para esta representación del dataset iris?
+
+```{r, echo=FALSE, fig.asp=0.6}
+pivot <- pivot_longer(iris,cols=c("Sepal.Length","Sepal.Width"))
+
+ggplot(data=pivot,aes(x=Petal.Length, y=Petal.Width,color=value, shape=name)) +
+  geom_point(position="jitter")
+```
